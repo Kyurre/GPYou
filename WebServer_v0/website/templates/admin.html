@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% block content %}
+
+<!-- display postgreSQL version and users listed in the database -->
+<!-- TODO: add buttons to edit/delete users -->
+<style>
+    table {
+        text-align: center;
+        table-layout: fixed;
+        width: 50%;
+        border-collapse: collapse;
+        border: thin solid cornflowerblue;
+    }
+    th, td {
+        padding: 20px;
+        border: 3px solid cornflowerblue;
+    }
+</style>
+
+<div class="version">
+    <h2>{{version[0]}}</h2>
+</div>
+
+<div class="user">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        {% for row in user %}
+        <tr>
+            {% for cell in row %}
+            <td>
+                {{ cell }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

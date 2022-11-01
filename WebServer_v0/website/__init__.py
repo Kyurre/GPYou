@@ -13,23 +13,27 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    #ls - From JD __init__.py (v.10242022)
+    #ls - From JD __init__.py (v.10-24-2022)
     #from .models import User
 
     conn = get_db_conn()
 
-    init_database(conn.cursor())
+    init_database(cur = conn.cursor())
 
     return app
 
 # connect to the database
 def get_db_conn():
     conn = psycopg2.connect('dbname=gpuapp_db user=postgres password=postgres')
+    conn.set_session(autocommit= True) #ls 1/11/2022 
     return conn
 
 def init_database(cur):
-    #-ls from KK (v.10112022)
-    #ls- user table
+    #-ls from KK (v.10-11-2022)
+    #ls- user 
+    cur.execute("""DROP TABLE IF EXISTS FAV CASCADE;""")
+    cur.execute("""DROP TABLE IF EXISTS GPUS CASCADE;""")
+    cur.execute("""DROP TABLE IF EXISTS USERS CASCADE;""")
     cur.execute("""
         DROP TABLE IF EXISTS USERS;    
         CREATE TABLE USERS (
@@ -44,7 +48,7 @@ def init_database(cur):
     cur.execute("""
         DROP TABLE IF EXISTS GPUS;    
         CREATE TABLE GPUS (
-            gpu_id          SERIAL UNIQUE,
+            gpu_id          SERIAL UNIQUE PRIMARY KEY,
             store           TEXT,
             gpu             TEXT,
             mnfctr          TEXT,
@@ -58,8 +62,8 @@ def init_database(cur):
     cur.execute("""
         DROP TABLE IF EXISTS FAV;    
         CREATE TABLE FAV (
-            id          INTEGER,
-            useremail        TEXT,
+            id              INTEGER,
+            useremail       TEXT,
             CONSTRAINT fk_gpu FOREIGN KEY (id) REFERENCES GPUS(gpu_id),
             CONSTRAINT fk_useremail FOREIGN KEY (useremail) REFERENCES USERS(user_email)
         );""")
@@ -78,5 +82,10 @@ def init_database(cur):
     cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3070', 'EVGA', 8, 329.99, true,true);""")
     cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3070 Super', 'Nvidia', 12, 379.99, true,false);""")
     cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3060', 'EVGA', 12, 399.99, true,false);""")
+    
+    #ls - added a commit 10-31-2022
+
+    cur.close()
+    #cur.execute("""COMMIT;""") ls 1/11/2022
 
     

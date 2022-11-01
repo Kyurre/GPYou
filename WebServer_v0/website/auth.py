@@ -17,7 +17,7 @@ def register():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        hashed_password = generate_password_hash(password1)
+        hashed_password = generate_password_hash(password1)  # type: ignore
 
         # check if account exists already
         cur.execute('SELECT * FROM users WHERE username = %s', (username,))
@@ -25,15 +25,14 @@ def register():
         # show errors upon failed validation checks
         if account:
             flash('User already exists!', category='error')
-        elif len(username) < 2:
+        elif len(username) < 2:  # type: ignore
             flash('Username must be more than two characters long.', category='error')
         elif password1 != password2:
             flash('Passwords must match.', category='error')
-        elif len(password1) < 6:
+        elif len(password1) < 6:  # type: ignore
             flash('Password must be longer than six characters.', category='error')
         else:
             # add user to database after passing validation checks
-            #cur.execute("""INSERT INTO USERS(lshah@depaul.edu, 1234, Luv, TRUE);""")
             cur.execute('INSERT INTO users (username, password)'
                         'VALUES (%s, %s)',
                         (username, hashed_password))
@@ -52,17 +51,16 @@ def account_created():
 def login():
     cur = conn.cursor()
 
-    #post means we are sending data to the HTML front end
     if request.method == 'POST':
         session['username'] = request.form['username']
+        print("route - login - request method POST: User Name: " + session['username'])
         password = request.form.get('password')
 
-        #ls trying to query postgres
-        #cur.execute('SELECT * FROM USERS WHERE first_name = %s OR user_email = %s;', (session['username'] + session['username']))
-        cur.execute('SELECT * FROM USERS WHERE user_email = %s;', (session['username'],))
+        #cur.execute('SELECT * FROM users WHERE username = %s;', (session['username'],))
+        cur.execute('SELECT * FROM USERS WHERE user_email = %s;', (session['username'],)) #ls 11-1-2022 make logical or
         account = cur.fetchone()
         if account:
-            if check_password_hash(account[2], password):
+            if check_password_hash(account[2], password):  # type: ignore
                 flash(f'Logged in as {session["username"]}.', category='success')
                 sleep(.3)
                 if account[3] == 'admin':

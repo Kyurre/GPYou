@@ -2,6 +2,12 @@ from flask import Flask
 import psycopg2
 from os import path
 from flask_login import LoginManager
+from werkzeug.security import generate_password_hash, check_password_hash
+
+DB_NAME = 'postgres'
+DB_USER = 'postgres'
+DB_PASS = 'Csc394ishard'
+DEFAULT_ADMIN_PASS = generate_password_hash('allswellthatendswell')
 
 def create_app():
     app = Flask(__name__)
@@ -24,7 +30,7 @@ def create_app():
 
 # connect to the database
 def get_db_conn():
-    conn = psycopg2.connect('dbname=gpuapp_db user=postgres password=postgres')
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
     conn.set_session(autocommit= True) #ls 1/11/2022 
     return conn
 
@@ -53,7 +59,7 @@ def init_database(cur):
             gpu             TEXT,
             mnfctr          TEXT,
             mem             SMALLINT,
-            price           MONEY,
+            price           FLOAT,
             isInStock       BOOL, 
             isOnSale        BOOL 
         );""")

@@ -90,3 +90,14 @@ def admin():
     cur.execute('SELECT id, username, role FROM users;')
     users = cur.fetchall()
     return render_template("admin.html", user=users, version=version)
+
+@auth.route('/search')
+def search():
+    first = ("amazon","GTX 960","EVGA",4, 990.99)
+    second = ("amazon","GTX 960","EVGA",15, 999.99)
+    third = ("amazon","GTX 960","EVGA",20, 999.99)
+
+    glist = [first, second, third]
+    
+    return render_template("results.html", list = glist)
+    #return render_template("action.php")

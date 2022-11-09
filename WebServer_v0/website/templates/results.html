@@ -35,11 +35,26 @@
                         {% for gpu in row %}
                             <td>{{ gpu }}</td>
                         {% endfor %}  
-                        <td><input type = "checkbox" id = "Favorite"></td>
+                        <td>
+                            <input type = "checkbox" id = "Favorite" onclick = favPopUp()>
+                            <p id = "text" style="display:none">Added to Favorites!</p>
+                        </td>
                     </tr>
                     {% endfor %}  
                 
             </table>
+            <script>
+                // When the user clicks on div, open the popup
+                function favPopUp() {
+                    var checkBox = document.getElementById("Favorite");
+                    var text = document.getElementById("text");
+                    if (checkBox.checked == true){
+                        text.style.display = "block";
+                    } else {
+                        text.style.display = "none";
+                    }
+                }
+                </script>
             {% endblock %}
         </div>
             </body>

@@ -14,38 +14,96 @@ results_path = 'WebServer_v0/website/csv/results.csv'
 df = pd.read_csv(path)
 # df.to_csv(results_path, sep='\t', header=None, mode='a')
 
-
+# List of details to compare to
 manufaturer_names = ['nvidia', 'asus',
                      'msi', 'evga', 'maxsun', 'amd', 'zotac']
 memory_size = ['24gb', '16gb', '12gb', '11gb', '10gb', '8gb', '6gb', '4gb']
 model_name = ['1030', '1050', '1660', '1080', '1070',
               '2060', '2070', '2080', '3060', '3070', '3080']
 
-manufaturer = ['msi', 'nvidia', 'asus']
-memory = ['6gb',           '8gb']
-model = ['1080', '2070', '3080']
 
+# Master records to append to
+manufaturer = []
+memory = []
+model = []
 
-temp = df['Description'][2].split()
+'''
+temp_manufaturer = []
+temp_memory = []
+temp_model = []
+
+# Use the colum name description and split text into list
+temp = df['Description'][3].split()
 print(temp)
 for i, j in enumerate(temp):
-    print(j.lower())
+    # print(j.lower())
     if j.lower() in manufaturer_names:
-        manufaturer.append(j)
+        temp_manufaturer.append(j)
     if j.lower() in memory_size:
-        memory.append(j)
-    else:
-        memory.append('')
+        temp_memory.append(j)
     if j.lower() in model_name:
-        model.append(j)
+        temp_model.append(j)
 
+try:
+    manufaturer.append(temp_manufaturer[0])
+except:
+    manufaturer.append('')
+
+try:
+    memory.append(temp_memory[0])
+except:
+    memory.append('')
+
+try:
+    model.append(temp_model[0])
+except:
+    model.append('')
+
+
+# Print current master record
+print(manufaturer)
+print(memory)
+print(model)
+*/
+'''
+
+for len_count, _ in enumerate(df):
+
+    temp_manufaturer = []
+    temp_memory = []
+    temp_model = []
+
+    temp = df['Description'][i].split()
+    # print(df['Description'][line_count].split())
+    for i, j in enumerate(temp):
+        # print(j.lower())
+        if j.lower() in manufaturer_names:
+            temp_manufaturer.append(j)
+        if j.lower() in memory_size:
+            temp_memory.append(j)
+        if j.lower() in model_name:
+            temp_model.append(j)
+
+    try:
+        manufaturer.append(temp_manufaturer[0])
+    except:
+        manufaturer.append('')
+
+    try:
+        memory.append(temp_memory[0])
+    except:
+        memory.append('')
+
+    try:
+        model.append(temp_model[0])
+    except:
+        model.append('')
 
 print(manufaturer)
 print(memory)
 print(model)
 
-# for line_count, _ in enumerate(df):
-# print(df['Description'][line_count].split())
+print(len(df['Description']))
 
 
 # reads results.csv into a list of split keys

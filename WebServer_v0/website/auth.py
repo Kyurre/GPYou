@@ -57,7 +57,7 @@ def login():
         password = request.form.get('password')
 
         #cur.execute('SELECT * FROM users WHERE username = %s;', (session['username'],))
-        cur.execute('SELECT * FROM USERS WHERE user_email = %s;', (session['username'],)) #ls 11-1-2022 make logical or
+        cur.execute('SELECT * FROM USERS WHERE username  = %s;', (session['username'],)) #ls 11-1-2022 make logical or
         account = cur.fetchone()
         if account:
             if check_password_hash(account[2], password):  # type: ignore

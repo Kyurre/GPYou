@@ -4,12 +4,12 @@ from os import path
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# DB_NAME = 'postgres'
-# DB_USER = 'postgres'
-# DB_PASS = 'Csc394ishard'
-DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
-DB_USER = 'postgres' #ls nov 6 EC2CHANGE
-DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
+DB_NAME = 'postgres'
+DB_USER = 'postgres'
+DB_PASS = 'Csc394ishard'
+#DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
+#DB_USER = 'postgres' #ls nov 6 EC2CHANGE
+#DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
 # DB_HOST = 'db-hw3.cyxa8bcyeg3o.us-east-1.rds.amazonaws.com'
 # DB_NAME = 'postgres'
 # DB_USER = 'postgres'

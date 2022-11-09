@@ -51,7 +51,7 @@ def create_tables():
     cur.execute('DROP TABLE IF EXISTS GPUS CASCADE')
 
     # Dave: I think we should remove this drop because it's resetting the users table everytime
-    cur.execute("DROP TABLE IF EXISTS USERS CASCADE;")  # ls nov 6 EC2REMOVE
+    # cur.execute("DROP TABLE IF EXISTS USERS CASCADE;")  # ls nov 6 EC2REMOVE
     # ls nov 6 EC2REMOVE
     cur.execute("DROP TABLE IF EXISTS FAVORITES CASCADE;")
     # create users table

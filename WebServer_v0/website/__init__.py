@@ -49,7 +49,9 @@ def create_tables():
     cur = conn.cursor()
 
     cur.execute('DROP TABLE IF EXISTS GPUS CASCADE')
-    cur.execute("DROP TABLE IF EXISTS USERS CASCADE;")  # ls nov 6 EC2REMOVE
+
+    # Dave: I think we should remove this drop because it's resetting the users table everytime
+    # cur.execute("DROP TABLE IF EXISTS USERS CASCADE;")  # ls nov 6 EC2REMOVE
     # ls nov 6 EC2REMOVE
     cur.execute("DROP TABLE IF EXISTS FAVORITES CASCADE;")
     # create users table
@@ -85,10 +87,24 @@ def create_tables():
                 ''')
 
     cur.execute('''
+                CREATE TABLE IF NOT EXISTS TESTING (
+                    gpu_key          SERIAL UNIQUE PRIMARY KEY,
+                    description      TEXT,
+                    price            MONEY,
+                    URL              TEXT      
+                )
+                ''')
+
+    cur.execute('''
                 INSERT INTO USERS (username, password, isAdmin)
                 VALUES (%s, %s, %s)
                 ON CONFLICT DO NOTHING
                 ''', ('dkulis', DEFAULT_ADMIN_PASS, True))
+
+    cur.execute(''' 
+                INSERT INTO TESTING(description, price, URL)
+                values('MSI Gaming GeForce RTX 3060 12GB 15 Gbps GDRR6 192-Bit HDMI/DP PCIe 4 Torx Triple Fan Ampere OC Graphics Card (RTX 3060 Ventus 3X 12G OC)','379.99','https://www.amazon.com/MSI-RTX-3060-OC-12G/dp/B08WTFG5BX/ref=sr_1_2?keywords=gpu&qid=1667875384&sr=8-2')
+                ''')
 
     cur.execute('''
                 INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 

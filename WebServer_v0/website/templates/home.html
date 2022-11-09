@@ -24,76 +24,79 @@
                             <hr>
                             <h6>Filters</h6>
                             <hr>
-                            <h6>General</h6>
-                                <input type="checkbox" id="onsale">
-                                <label for="onsale">On Sale</label><br>
+                            <form action="{{url_for('auth.search')}}">
+                                <h6>General</h6>
+                                    <input type="checkbox" id="onsale">
+                                    <label for="onsale">On Sale</label><br>
 
-                                <input type="checkbox" id="instock">
-                                <label for="instock">In Stock</label><br>
+                                    <input type="checkbox" id="instock">
+                                    <label for="instock">In Stock</label><br>
 
-                            <hr>
+                                <hr>
 
-                            <h6>Memory Size</h6>
-                                <input type="checkbox" id="24gb">
-                                <label for="24gb">24GB</label><br>
+                                <h6>Memory Size</h6>
+                                    <input type="checkbox" id="24gb">
+                                    <label for="24gb">24GB</label><br>
 
-                                <input type="checkbox" id="16gb">
-                                <label for="16gb">16GB</label><br>
+                                    <input type="checkbox" id="16gb">
+                                    <label for="16gb">16GB</label><br>
 
-                                <input type="checkbox" id="12gb">
-                                <label for="12gb">12GB</label><br>
+                                    <input type="checkbox" id="12gb">
+                                    <label for="12gb">12GB</label><br>
 
-                                <input type="checkbox" id="11gb">
-                                <label for="11gb">11GB</label><br>
+                                    <input type="checkbox" id="11gb">
+                                    <label for="11gb">11GB</label><br>
 
-                                <input type="checkbox" id="10gb">
-                                <label for="10gb">10GB</label><br>
+                                    <input type="checkbox" id="10gb">
+                                    <label for="10gb">10GB</label><br>
 
-                                <input type="checkbox" id="8gb">
-                                <label for="8gb">8GB</label><br>
+                                    <input type="checkbox" id="8gb">
+                                    <label for="8gb">8GB</label><br>
 
-                            <hr>
+                                <hr>
 
-                            <h6>Manufactuer</h6>
-                                <input type="checkbox" id="Asus">
-                                <label for="asus">Asus</label><br>
+                                <h6>Manufactuer</h6>
+                                    <input type="checkbox" id="Asus">
+                                    <label for="asus">Asus</label><br>
 
-                                <input type="checkbox" id="MSI">
-                                <label for="msi">MSI</label><br>
+                                    <input type="checkbox" id="MSI">
+                                    <label for="msi">MSI</label><br>
 
-                                <input type="checkbox" id="EVGA">
-                                <label for="evga">EVGA</label><br>
+                                    <input type="checkbox" id="EVGA">
+                                    <label for="evga">EVGA</label><br>
 
-                                <input type="checkbox" id="Nvidia">
-                                <label for="nvidia">Nvidia</label><br>
+                                    <input type="checkbox" id="Nvidia">
+                                    <label for="nvidia">Nvidia</label><br>
 
-                            <hr>
+                                <hr>
 
-                            <h6>Max Price</h6>
-                            <select name="maxprice" id="maxprice">
-                                <option value="100">100</option>
-                                <option value="200">200</option>
-                                <option value="300">300</option>
-                                <option value="400">400</option>
-                                <option value="500">500</option>
-                                <option value="600">600</option>
-                                <option value="700+">700+</option>
-                            </select>
+                                <h6>Max Price</h6>
+                                <select name="maxprice" id="maxprice">
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700+">700+</option>
+                                </select>
 
-                            <hr>
+                                <hr>
 
-                            <h6>Select GPU</h6>
-                            <select name="gpuname" id="gpuname">
-                                <option value="3050">GTX 3050</option>
-                                <option value="3050ti">GTX 3050ti</option>
-                                <option value="3060">GTX 3060</option>
-                                <option value="3070">GTX 3070</option>
-                                <option value="3070super">GTX 3070 Super</option>
-                                <option value="3080">GTX 3080</option>
-                                <option value="3080ti">GTX 3080ti</option>
-                            </select>
-                            <br><br>
-                            <input type="submit" value="Search">
+                                <h6>Select GPU</h6>
+                                <select name="gpuname" id="gpuname">
+                                    <option value="3050">GTX 3050</option>
+                                    <option value="3050ti">GTX 3050ti</option>
+                                    <option value="3060">GTX 3060</option>
+                                    <option value="3070">GTX 3070</option>
+                                    <option value="3070super">GTX 3070 Super</option>
+                                    <option value="3080">GTX 3080</option>
+                                    <option value="3080ti">GTX 3080ti</option>
+                                </select>
+                            
+                                <br><br>
+                                <input type="submit" value="Search">
+                            </form>
         
                             
 
@@ -129,7 +132,7 @@
                         <hr>
                         <div class="col">
                             <div class = "grid-body">
-                                <div class="col">
+                                <div class="row">
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/Wiw4fhFM7rQ" 
                                     title="YouTube video player" 
                                     frameborder="0" 
@@ -137,7 +140,7 @@
                                     </iframe>
                                 </div>
 
-                                <div class="col">
+                                <div class="row">
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/Qq5qD1laED4" 
                                     title="YouTube video player" 
                                     frameborder="0" 
@@ -145,7 +148,7 @@
                                     </iframe>
                                 </div>
 
-                                <div class="col">
+                                <div class="row">
                                     <iframe width="560" height="315" src="https://www.tomshardware.com/news/geforce-rtx-4090-has-a-spirit-level-to-prevent-gpu-sagging" 
                                     title="YouTube video player" 
                                     frameborder="0" 
@@ -153,7 +156,7 @@
                                     </iframe>
                                 </div>
 
-                                <div class="col">
+                                <div class="row">
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/6T9d9LM1TwY" 
                                     title="YouTube video player" 
                                     frameborder="0" 
@@ -172,6 +175,7 @@
 
             </div><!--End of grid for element stacking-->
 
+            
             
 
             <h8>version 1.0, developed by Jayden Godbold</h8>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+    <html>
+        <Head>
+            <title>Search Results</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+            
+        </Head>
+        <body style="background-color: white;">
+            <!-- Header section-->
+            <header>
+                <section id = "header" class = "header">
+                   <!-- <h1>GPU Web Scraper</h1> -->
+                </section>
+            </header>
+            {% extends "base.html" %} {% block title %}Home{% endblock %}
+            {% block content %}
+
+            <!-- JG 11-8-22 prints list from auth.search -->
+            <div id = table1>
+            <table>
+                <thead>
+                <tr>
+                    <th>Store</th>
+                    <th>GPU</th>
+                    <th>Manufactuer</th>
+                    <th>Memory</th>
+                    <th>Price</th>
+                    <th>Favorite</th>
+                </tr>
+            </thead>
+                
+                    {% for row in list %}
+                    
+                    <tr>
+                        {% for gpu in row %}
+                            <td>{{ gpu }}</td>
+                        {% endfor %}  
+                        <td><input type = "checkbox" id = "Favorite"></td>
+                    </tr>
+                    {% endfor %}  
+                
+            </table>
+            {% endblock %}
+        </div>
+            </body>
+        </body>
+    </html>

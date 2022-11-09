@@ -4,9 +4,17 @@ from os import path
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 
-DB_NAME = 'postgres'
-DB_USER = 'postgres'
-DB_PASS = 'Csc394ishard'
+# DB_NAME = 'postgres'
+# DB_USER = 'postgres'
+# DB_PASS = 'Csc394ishard'
+DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
+DB_USER = 'postgres' #ls nov 6 EC2CHANGE
+DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
+# DB_HOST = 'db-hw3.cyxa8bcyeg3o.us-east-1.rds.amazonaws.com'
+# DB_NAME = 'postgres'
+# DB_USER = 'postgres'
+# DB_PASS =  'he1pMEplease'
+DB_PORT = 5432
 DEFAULT_ADMIN_PASS = generate_password_hash('allswellthatendswell')
 
 def create_app():
@@ -19,79 +27,95 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    #ls - From JD __init__.py (v.10-24-2022)
-    #from .models import User
-
-    conn = get_db_conn()
-
-    init_database(cur = conn.cursor())
+    get_db_conn()
+    create_tables()
 
     return app
 
 # connect to the database
 def get_db_conn():
     conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
-    conn.set_session(autocommit= True) #ls 1/11/2022 
+    #conn = psycopg2.connect(host = DB_HOST, dbname=DB_NAME, user=DB_USER, password = DB_PASS, port = DB_PORT)
+    
     return conn
 
-def init_database(cur):
-    #-ls from KK (v.10-11-2022)
-    #ls- user 
-    cur.execute("""DROP TABLE IF EXISTS FAV CASCADE;""")
-    cur.execute("""DROP TABLE IF EXISTS GPUS CASCADE;""")
-    cur.execute("""DROP TABLE IF EXISTS USERS CASCADE;""")
-    cur.execute("""
-        DROP TABLE IF EXISTS USERS;    
-        CREATE TABLE USERS (
-            user_email          TEXT NOT NULL PRIMARY KEY,
-            user_pwd            TEXT,
-            first_name          TEXT,
-            isAdmin             BOOL DEFAULT FALSE,
-            UNIQUE(user_email)
-        );""")
-
-    #ls- GPUS
-    cur.execute("""
-        DROP TABLE IF EXISTS GPUS;    
-        CREATE TABLE GPUS (
-            gpu_id          SERIAL UNIQUE PRIMARY KEY,
-            store           TEXT,
-            gpu             TEXT,
-            mnfctr          TEXT,
-            mem             SMALLINT,
-            price           FLOAT,
-            isInStock       BOOL, 
-            isOnSale        BOOL 
-        );""")
-
-     #ls- Fav
-    cur.execute("""
-        DROP TABLE IF EXISTS FAV;    
-        CREATE TABLE FAV (
-            id              INTEGER,
-            useremail       TEXT,
-            CONSTRAINT fk_gpu FOREIGN KEY (id) REFERENCES GPUS(gpu_id),
-            CONSTRAINT fk_useremail FOREIGN KEY (useremail) REFERENCES USERS(user_email)
-        );""")
-
-     #ls- populate deafults USER admin
-    cur.execute("""INSERT INTO USERS(user_email, user_pwd, first_name, isAdmin) VALUES('lshah@depaul.edu', '1234', 'Luv', TRUE);""")
-
-    #ls insert defaults GPUS
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Micro Center', 'GTX 3050', 'Asus', 8, 429.99, false,false);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Micro Center', 'GTX 3050', 'MSI', 8, 339.99, true,true);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Micro Center', 'GTX 3050', 'EVGA', 8, 329.99, true,true);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 379.99, true,false);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 399.99, true,false);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3080', 'Asus', 8, 429.99, false,false);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3080ti', 'MSI', 8, 339.99, true,true);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3070', 'EVGA', 8, 329.99, true,true);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3070 Super', 'Nvidia', 12, 379.99, true,false);""")
-    cur.execute("""INSERT INTO GPUS(store, gpu, mnfctr, mem, price, isInStock, isOnSale) VALUES('Best Buy', 'GTX 3060', 'EVGA', 12, 399.99, true,false);""")
+def create_tables():
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password = DB_PASS)
+    #conn = psycopg2.connect(host = DB_HOST, dbname=DB_NAME, user=DB_USER, password = DB_PASS, port = DB_PORT)
     
-    #ls - added a commit 10-31-2022
+    cur = conn.cursor()
 
+    cur.execute('DROP TABLE IF EXISTS GPUS CASCADE')
+    cur.execute("DROP TABLE IF EXISTS USERS CASCADE;") #ls nov 6 EC2REMOVE
+    cur.execute("DROP TABLE IF EXISTS FAVORITES CASCADE;") #ls nov 6 EC2REMOVE
+    # create users table
+    cur.execute('''
+                CREATE TABLE IF NOT EXISTS USERS (
+                    id          SERIAL UNIQUE PRIMARY KEY,
+                    username    VARCHAR(32) NOT NULL UNIQUE,
+                    password    VARCHAR(255) NOT NULL,
+                    isAdmin     BOOL DEFAULT FALSE
+                )
+                ''')
+    # create gpu table
+    cur.execute('''
+                CREATE TABLE IF NOT EXISTS GPUS (
+                    gpu_id          SERIAL UNIQUE PRIMARY KEY,
+                    store           TEXT,
+                    gpu             TEXT,
+                    manufacturer    TEXT,
+                    memory          SMALLINT,
+                    price           MONEY,
+                    inStock         BOOL,
+                    onSale          BOOL       
+                )
+                ''')
+    # create favorites table
+    cur.execute('''
+                CREATE TABLE IF NOT EXISTS FAVORITES (
+                    gpuid          INTEGER,
+                    username        INTEGER,
+                    CONSTRAINT fk_gpu FOREIGN KEY (gpuid) REFERENCES GPUS(gpu_id),
+                    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES USERS(id)
+                )
+                ''')
+
+    cur.execute('''
+                INSERT INTO USERS (username, password, isAdmin)
+                VALUES (%s, %s, %s)
+                ON CONFLICT DO NOTHING
+                ''', ('dkulis', DEFAULT_ADMIN_PASS, True))
+
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Micro Center', 'GTX 3050', 'Asus', 8, 429.99, false,false)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Micro Center', 'GTX 3050', 'MSI', 8, 339.99, true,true)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Micro Center', 'GTX 3050', 'EVGA', 8, 329.99, true,true)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 379.99, true,false)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 399.99, true,false)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Best Buy', 'GTX 3080', 'Asus', 8, 429.99, false,false)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Best Buy', 'GTX 3080ti', 'MSI', 8, 339.99, true,true)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Best Buy', 'GTX 3070', 'EVGA', 8, 329.99, true,true)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Best Buy', 'GTX 3070 Super', 'Nvidia', 12, 379.99, true,false)''')
+    cur.execute('''
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
+                VALUES('Best Buy', 'GTX 3060', 'EVGA', 12, 399.99, true,false)''')
+                
     cur.close()
-    #cur.execute("""COMMIT;""") ls 1/11/2022
-
-    
+    conn.commit()

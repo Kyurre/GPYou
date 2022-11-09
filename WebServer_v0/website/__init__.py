@@ -13,7 +13,7 @@ DB_NAME = 'flask_db'
 DB_USER = 'postgres'
 DB_PASS = 'bu36yc5g'
 DB_PORT = 5432
-DEFAULT_ADMIN_PASS = generate_password_hash('allswellthatendswell')
+DEFAULT_ADMIN_PASS = generate_password_hash('admin') # changed to admin for simplicity dk 11-9-22
 
 
 def create_app():
@@ -55,7 +55,7 @@ def create_tables():
     # create users table
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS USERS (
-                    id          SERIAL UNIQUE PRIMARY KEY,
+                    user_id     SERIAL UNIQUE PRIMARY KEY,
                     username    VARCHAR(32) NOT NULL UNIQUE,
                     password    VARCHAR(255) NOT NULL,
                     isAdmin     BOOL DEFAULT FALSE
@@ -77,10 +77,10 @@ def create_tables():
     # create favorites table
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS FAVORITES (
-                    gpuid          INTEGER,
-                    username        INTEGER,
-                    CONSTRAINT fk_gpu FOREIGN KEY (gpuid) REFERENCES GPUS(gpu_id),
-                    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES USERS(id)
+                    gpuid                   INTEGER,
+                    username                INTEGER,
+                    CONSTRAINT fk_gpu       FOREIGN KEY (gpuid) REFERENCES GPUS(gpu_id),
+                    CONSTRAINT fk_username  FOREIGN KEY (username) REFERENCES USERS(user_id)
                 )
                 ''')
 

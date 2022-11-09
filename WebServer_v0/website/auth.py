@@ -97,7 +97,7 @@ def logout():
 @auth.route('/admin')
 def admin():
     cur = conn.cursor()
-    cur.execute('SELECT username, isAdmin FROM USERS;')
+    cur.execute('SELECT user_id, username, isAdmin FROM USERS;')
     users = cur.fetchall()
     return render_template("admin.html", user=users)
 
@@ -149,10 +149,10 @@ def add_user():
 # update users in the database
 
 
-@auth.route('/update/<string:username>', methods=['POST', 'GET'])
-def update(username):
+@auth.route('/update/<string:id>', methods=['POST', 'GET'])
+def update(id):
     cur = conn.cursor()
-    cur.execute('SELECT * FROM USERS WHERE username = %s', (username,))
+    cur.execute('SELECT * FROM USERS WHERE user_id = %s', (id,))
     data = cur.fetchall()
     print(data[0])
 
@@ -173,7 +173,8 @@ def update(username):
                 test = cur.execute('''
                         UPDATE USERS u SET
                         username = %s, password = %s, isAdmin = %s
-                        ''', (username, generate_password_hash(password), role))
+                        WHERE user_id = %s
+                        ''', (username, generate_password_hash(password), role, id))
                 print(test.__str__)
                 conn.commit()
                 flash('User updated.', category='success')
@@ -187,11 +188,11 @@ def update(username):
 # remove users from the database
 
 
-@auth.route('/delete/<string:username>', methods=['POST', 'GET'])
-def delete(username):
+@auth.route('/delete/<string:id>', methods=['POST', 'GET'])
+def delete(id):
     cur = conn.cursor()
 
-    cur.execute('DELETE FROM USERS WHERE username = %s', (username,))
+    cur.execute('DELETE FROM USERS WHERE user_id = %s', (id,))
     conn.commit()
     flash('User deleted.', category='error')
     return redirect(url_for('auth.admin'))

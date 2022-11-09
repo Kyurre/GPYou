@@ -2,6 +2,11 @@ import csv
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+
+
+search_term = 'gpu'
+
+
 def get_url(search_term):
     template = 'https://www.amazon.com/s?k={}&ref=nb_sb_noss_1'
     search_term = search_term.replace(' ', '+')
@@ -80,3 +85,6 @@ def runSearch(search_term):
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
         writer.writerows(records)
+
+
+runSearch('gpu')

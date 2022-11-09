@@ -63,7 +63,7 @@ def login():
             if check_password_hash(account[2], password):  # type: ignore
                 flash(f'Logged in as {session["username"]}.', category='success')
                 sleep(.3)
-                if account[3] == 'admin':
+                if account[3]:
                     session['username'] = 'admin'
                 return redirect(url_for('views.home'))
             else:
@@ -89,6 +89,7 @@ def admin():
     users = cur.fetchall()
     return render_template("admin.html", user=users)
 
+# grab form data from home page form and print on results
 @auth.route('/search')
 def search():
     first = ("amazon","GTX 960","EVGA",4, 990.99)
@@ -96,7 +97,7 @@ def search():
     third = ("amazon","GTX 960","EVGA",20, 999.99)
 
     glist = [first, second, third]
-    
+
     return render_template("results.html", list = glist)
     #return render_template("action.php")
     # add users to the database

@@ -1,8 +1,6 @@
 from flask import Flask
 import psycopg2
-from os import path
-from flask_login import LoginManager
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 
 DB_NAME = 'postgres'
 DB_USER = 'postgres'

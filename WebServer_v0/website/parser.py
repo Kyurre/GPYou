@@ -58,22 +58,15 @@ try:
     model.append(temp_model[0])
 except:
     model.append('')
-
-
-# Print current master record
-print(manufaturer)
-print(memory)
-print(model)
-*/
 '''
 
-for len_count, _ in enumerate(df):
+for len_count, _ in enumerate(df['Description']):
 
     temp_manufaturer = []
     temp_memory = []
     temp_model = []
 
-    temp = df['Description'][i].split()
+    temp = df['Description'][len_count].split()
     # print(df['Description'][line_count].split())
     for i, j in enumerate(temp):
         # print(j.lower())
@@ -99,11 +92,11 @@ for len_count, _ in enumerate(df):
     except:
         model.append('')
 
-print(manufaturer)
-print(memory)
-print(model)
 
-print(len(df['Description']))
+# Print master record
+print(len(manufaturer))
+print(len(memory))
+print(len(model))
 
 
 # reads results.csv into a list of split keys

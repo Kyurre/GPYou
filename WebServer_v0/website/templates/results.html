@@ -25,14 +25,17 @@
                     <th>Manufactuer</th>
                     <th>Memory</th>
                     <th>Price</th>
+                    <th>Favorite</th>
                 </tr>
             </thead>
                 
                     {% for row in list %}
+                    
                     <tr>
                         {% for gpu in row %}
                             <td>{{ gpu }}</td>
                         {% endfor %}  
+                        <td><input type = "checkbox" id = "Favorite"></td>
                     </tr>
                     {% endfor %}  
                 

@@ -2,8 +2,8 @@ import csv
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-
-
+from webdriver_manager.firefox import GeckoDriverManager 
+#this file was authored by Dave P. 
 search_term = 'gpu'
 
 
@@ -12,7 +12,7 @@ def get_url(search_term):
     search_term = search_term.replace(' ', '+')
 
     # add term query to url
-    url = template.format(search_term)
+    url = template.format(search_term) 
 
     # add page query placeholder
     url += '&page{}'
@@ -54,13 +54,13 @@ def runSearch(search_term):
     options = Options()
 
     # switch this to chrome.exe path and use webdriver.Chrome
-    options.binary_location = r"C:/Program Files/Mozilla Firefox/firefox.exe"
-    driver = webdriver.Firefox(options=options)
-
+    options.binary_location = r"C:\Program Files (x86)\Mozilla Firefox"
+    #driver = webdriver.Firefox(options=options)
+    #driver = webdriver.Firefox(executable_path=GeckoDriverManager().install()) #ls
     # instead of creating an environmental variable for ChromeDriver use this
     # URL: https://chromedriver.chromium.org/
     # Debug: https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/
-    # driver = webdriver.chrome.driver(options=options, executable_path='your\path\chromedriver.exe')
+    #driver = webdriver.chrome.driver(options=options, executable_path='C:\Program Files (x86)\Google\Chrome\Application')
 
     records = []
     url = get_url(search_term)

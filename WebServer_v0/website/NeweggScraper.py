@@ -43,6 +43,11 @@ def NewEggScrapperFunc():
         name = item[0]
         price = f"${item[1]['price']}"
         memory = "Gigabytes"
+        if re.match('.*GB', item[0]): #ls - mmade a substring parser to check for the memory 
+            SubStringsofDescr = str(name).split()
+            for index in SubStringsofDescr:
+                if(index.__contains__("GB")):
+                    memory = index.__str__()
         link = item[1]['link']
         list_of_Gpus = (store,name,manufacturer,memory,price,link,)
         Gpu_Master_List.append(list_of_Gpus)

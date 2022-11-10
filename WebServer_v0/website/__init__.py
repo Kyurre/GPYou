@@ -1,18 +1,19 @@
 from flask import Flask
 import psycopg2
 from werkzeug.security import generate_password_hash
-from NeweggScraper import  NewEggScrapperFunc
+import website.NeweggScraper as NWS
+import website.amazonscrapper as AWSC
 # DB_NAME = 'postgres'
 # DB_USER = 'postgres'
 # DB_PASS = 'Csc394ishard'
-# DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
-# DB_USER = 'postgres' #ls nov 6 EC2CHANGE
-# DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
-DB_HOST = 'database-hw3.cgv4f9hrnu6e.us-east-2.rds.amazonaws.com'
-DB_NAME = 'flask_db'
-DB_USER = 'postgres'
-DB_PASS = 'bu36yc5g'
-DB_PORT = 5432
+DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
+DB_USER = 'postgres' #ls nov 6 EC2CHANGE
+DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
+# DB_HOST = 'database-hw3.cgv4f9hrnu6e.us-east-2.rds.amazonaws.com'
+# DB_NAME = 'flask_db'
+# DB_USER = 'postgres'
+# DB_PASS = 'bu36yc5g'
+# DB_PORT = 5432
 DEFAULT_ADMIN_PASS = generate_password_hash('admin') # changed to admin for simplicity dk 11-9-22
 
 
@@ -25,7 +26,8 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-    glist = NewEggScrapperFunc()
+    #glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table 
+    AWSC.runSearch("gpu") #ls 11/09/2022 using Dave's scraper to init the DB
     get_db_conn()
     create_tables()
 
@@ -35,10 +37,8 @@ def create_app():
 
 
 def get_db_conn():
-    #conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
-    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME,
-                            user=DB_USER, password=DB_PASS, port=DB_PORT)
-
+    conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
+    #conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME,user=DB_USER, password=DB_PASS, port=DB_PORT)
     return conn
 
 

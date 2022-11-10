@@ -14,15 +14,14 @@ URL = []
 
 
 def AmazonParser(path):
-    # results_path = 'WebServer_v0/website/csv/results.csv'
 
+    df = pd.read_csv(path)
     # Get current working directory
     #cwd = os.getcwd()
     #files = os.listdir(cwd)
     #print(f"Files in {cwd}: {files}")
 
     # creates a results.csv that is cleaner and does not contain headers. It is ready to scrape.
-    df = pd.read_csv(path)
     # df.to_csv(results_path, sep='\t', header=None, mode='a')
 
     # List of details to compare to
@@ -96,14 +95,7 @@ def getPrice():
 def getURL():
     df = pd.read_csv(path)
     for len_count, link in enumerate(df['Url']):
-        temp_URL = []
-        temp_URL.append(link)
-
-        try:
-            URL.append(temp_URL[0])
-        except:
-            URL.append('')
-
+        URL.append(link)
     # print(URL)
     # print(len(URL))
 
@@ -121,6 +113,7 @@ def createAmazonTuple():
 
     # print(records)
     return records
+
 
 # Use this to run the parser.py locally to test that it prints a tuple
 # createAmazonTuple()

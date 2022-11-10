@@ -1,7 +1,7 @@
 from flask import Flask
 import psycopg2
 from werkzeug.security import generate_password_hash
-
+from NeweggScraper import  NewEggScrapperFunc
 # DB_NAME = 'postgres'
 # DB_USER = 'postgres'
 # DB_PASS = 'Csc394ishard'
@@ -25,7 +25,7 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-
+    glist = NewEggScrapperFunc()
     get_db_conn()
     create_tables()
 
@@ -123,3 +123,4 @@ def create_tables():
 
     cur.close()
     conn.commit()
+

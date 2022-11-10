@@ -2,12 +2,17 @@ import csv
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from webdriver_manager.firefox import GeckoDriverManager 
+#this file was authored by Dave P. 
+search_term = 'gpu'
+
+
 def get_url(search_term):
     template = 'https://www.amazon.com/s?k={}&ref=nb_sb_noss_1'
     search_term = search_term.replace(' ', '+')
 
     # add term query to url
-    url = template.format(search_term)
+    url = template.format(search_term) 
 
     # add page query placeholder
     url += '&page{}'
@@ -49,19 +54,19 @@ def runSearch(search_term):
     options = Options()
 
     # switch this to chrome.exe path and use webdriver.Chrome
-    options.binary_location = r"C:/Program Files/Mozilla Firefox/firefox.exe"
-    driver = webdriver.Firefox(options=options)
-
+    options.binary_location = r"C:\Program Files (x86)\Mozilla Firefox"
+    #driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install()) #ls
     # instead of creating an environmental variable for ChromeDriver use this
     # URL: https://chromedriver.chromium.org/
     # Debug: https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/
-    # driver = webdriver.chrome.driver(options=options, executable_path='your\path\chromedriver.exe')
+    #driver = webdriver.chrome.driver(options=options, executable_path='C:\Program Files (x86)\Google\Chrome\Application')
 
     records = []
     url = get_url(search_term)
 
     # Go through max of 20 pages on amazon and parse information
-    for page in range(1, 21):
+    for page in range(1, 11):
         driver.get(url.format(page))
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         results = soup.find_all(
@@ -80,3 +85,6 @@ def runSearch(search_term):
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
         writer.writerows(records)
+
+
+runSearch('gpu')

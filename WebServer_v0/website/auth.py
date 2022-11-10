@@ -8,7 +8,9 @@ auth = Blueprint('auth', __name__)
 conn = get_db_conn()
 
 # User registration
-@auth.route('/register', methods=['GET','POST'])
+
+
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     cur = conn.cursor()
 
@@ -42,38 +44,46 @@ def register():
 
     return render_template('register.html')
 
+
 @auth.route('/account_created')
 def account_created():
     return render_template('account_created.html')
 
 #  Create login page
-@auth.route('/login', methods=['GET','POST'])
+
+
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     cur = conn.cursor()
 
     if request.method == 'POST':
         session['username'] = request.form['username']
-        print("route - login - request method POST: User Name: " + session['username'])
+        print("route - login - request method POST: User Name: " +
+              session['username'])
         password = request.form.get('password')
 
         #cur.execute('SELECT * FROM users WHERE username = %s;', (session['username'],))
-        cur.execute('SELECT * FROM USERS WHERE username  = %s;', (session['username'],)) #ls 11-1-2022 make logical or
+        cur.execute('SELECT * FROM USERS WHERE username  = %s;',
+                    (session['username'],))  # ls 11-1-2022 make logical or
         account = cur.fetchone()
         if account:
             if check_password_hash(account[2], password):  # type: ignore
-                flash(f'Logged in as {session["username"]}.', category='success')
+                flash(
+                    f'Logged in as {session["username"]}.', category='success')
                 sleep(.3)
-                if account[3] == 'admin':
+                if account[3]:
                     session['username'] = 'admin'
                 return redirect(url_for('views.home'))
             else:
                 flash('Incorrect password.', category='error')
         else:
             flash('User does not exist.', category='error')
-        
+
     return render_template("login.html")
 
 # Logout to home screen, flash message on logout
+
+
 @auth.route('/logout')
 def logout():
     # remove the username from the session if it's there
@@ -82,27 +92,32 @@ def logout():
     return render_template('home.html')
 
 # Create Admin Page
+
+
 @auth.route('/admin')
 def admin():
     cur = conn.cursor()
-    cur.execute('SELECT username, isAdmin FROM USERS;')
+    cur.execute('SELECT user_id, username, isAdmin FROM USERS;')
     users = cur.fetchall()
     return render_template("admin.html", user=users)
 
+# grab form data from home page form and print on results
+
+
 @auth.route('/search')
 def search():
-    first = ("amazon","GTX 960","EVGA",4, 990.99)
-    second = ("amazon","GTX 960","EVGA",15, 999.99)
-    third = ("amazon","GTX 960","EVGA",20, 999.99)
+    first = ("amazon", "GTX 960", "EVGA", 4, 990.99)
+    second = ("amazon", "GTX 960", "EVGA", 15, 999.99)
+    third = ("amazon", "GTX 960", "EVGA", 20, 999.99)
 
     glist = [first, second, third]
-    
-    return render_template("results.html", list = glist)
-    #return render_template("action.php")
+
+    return render_template("results.html", list=glist)
+    # return render_template("action.php")
     # add users to the database
 
 
-@auth.route('/add_user', methods=['POST','GET'])  # type: ignore
+@auth.route('/add_user', methods=['POST', 'GET'])  # type: ignore
 def add_user():
     if request.method == 'POST':
         username = request.form['username']
@@ -132,10 +147,12 @@ def add_user():
         return redirect(url_for('auth.admin'))
 
 # update users in the database
-@auth.route('/update/<string:username>', methods=['POST','GET'])
-def update(username):
+
+
+@auth.route('/update/<string:id>', methods=['POST', 'GET'])
+def update(id):
     cur = conn.cursor()
-    cur.execute('SELECT * FROM USERS WHERE username = %s', (username,))
+    cur.execute('SELECT * FROM USERS WHERE user_id = %s', (id,))
     data = cur.fetchall()
     print(data[0])
 
@@ -151,29 +168,31 @@ def update(username):
         elif role != 'true' and role != 'false':
             flash("Role must be set to true or false.", category='error')
         else:
-            #ls need try catch blcok to handle duplicate key values
+            # ls need try catch blcok to handle duplicate key values
             try:
                 test = cur.execute('''
                         UPDATE USERS u SET
                         username = %s, password = %s, isAdmin = %s
-                        ''', (username, generate_password_hash(password), role))
+                        WHERE user_id = %s
+                        ''', (username, generate_password_hash(password), role, id))
                 print(test.__str__)
                 conn.commit()
-                flash('User updated.',category='success')
+                flash('User updated.', category='success')
             except:
-                print("Crash! duplicat key found")
+                print("Crash! duplicate key found")
                 flash('Username has already been taken.', category='error')
             return redirect(url_for('auth.admin'))
 
     return render_template('update.html', user=data[0])
 
 # remove users from the database
-@auth.route('/delete/<string:username>', methods=['POST','GET'])
-def delete(username):
+
+
+@auth.route('/delete/<string:id>', methods=['POST', 'GET'])
+def delete(id):
     cur = conn.cursor()
 
-    cur.execute('DELETE FROM USERS WHERE username = %s', (username,))
+    cur.execute('DELETE FROM USERS WHERE user_id = %s', (id,))
     conn.commit()
     flash('User deleted.', category='error')
     return redirect(url_for('auth.admin'))
-

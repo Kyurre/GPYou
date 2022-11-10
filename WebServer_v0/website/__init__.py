@@ -6,15 +6,16 @@ import website.amazonscrapper as AWSC
 # DB_NAME = 'postgres'
 # DB_USER = 'postgres'
 # DB_PASS = 'Csc394ishard'
-DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
-DB_USER = 'postgres' #ls nov 6 EC2CHANGE
-DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
-# DB_HOST = 'database-hw3.cgv4f9hrnu6e.us-east-2.rds.amazonaws.com'
-# DB_NAME = 'flask_db'
-# DB_USER = 'postgres'
-# DB_PASS = 'bu36yc5g'
-# DB_PORT = 5432
-DEFAULT_ADMIN_PASS = generate_password_hash('admin') # changed to admin for simplicity dk 11-9-22
+# DB_NAME = 'gpuapp_db' #ls nov 6 EC2CHANGE
+# DB_USER = 'postgres' #ls nov 6 EC2CHANGE
+# DB_PASS = 'postgres' #ls - nov 6 - added for localhost debugging EC2CHANGE
+DB_HOST = 'database-hw3.cgv4f9hrnu6e.us-east-2.rds.amazonaws.com'
+DB_NAME = 'flask_db'
+DB_USER = 'postgres'
+DB_PASS = 'bu36yc5g'
+DB_PORT = 5432
+# changed to admin for simplicity dk 11-9-22
+DEFAULT_ADMIN_PASS = generate_password_hash('admin')
 
 
 def create_app():
@@ -26,8 +27,8 @@ def create_app():
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-    #glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table 
-    AWSC.runSearch("gpu") #ls 11/09/2022 using Dave's scraper to init the DB
+    # glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table
+    AWSC.runSearch("gpu")  # ls 11/09/2022 using Dave's scraper to init the DB
     get_db_conn()
     create_tables()
 
@@ -139,4 +140,3 @@ def create_tables():
 
     cur.close()
     conn.commit()
-

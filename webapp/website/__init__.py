@@ -39,7 +39,8 @@ def create_app():
 
 def get_db_conn():
     #conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
-    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME,user=DB_USER, password=DB_PASS, port=DB_PORT)
+    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME,
+                            user=DB_USER, password=DB_PASS, port=DB_PORT)
     return conn
 
 
@@ -72,9 +73,8 @@ def create_tables():
                     gpu             TEXT,
                     manufacturer    TEXT,
                     memory          SMALLINT,
-                    price           MONEY,
-                    inStock         BOOL,
-                    onSale          BOOL       
+                    price           FLOAT,
+                    link            TEXT
                 )
                 ''')
     # create favorites table

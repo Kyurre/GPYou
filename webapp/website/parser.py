@@ -114,7 +114,7 @@ def createAmazonTuple():
                   manufaturer[i], memory[i], price[i], URL[i])
         records.append(result)
 
-    print(records[0])
+    # print(records[0])
     return records
 
 

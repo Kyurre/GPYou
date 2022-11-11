@@ -30,8 +30,8 @@ def AmazonParser(path):
                          'msi', 'evga', 'maxsun', 'amd', 'zotac']
     memory_size = ['24gb', '16gb', '12gb', '11gb',
                    '10gb', '8gb', '6gb', '4gb', '2gb']
-    model_name = ['1030', '1050', '1650', '1660', '1080', '1070',
-                  '2060', '2070', '2080', '3060', '3070', '3080']
+    model_name = ['1030', '1050', '1650', '1660', '1060', '1070', '1080',
+                  '2060', '2070', '2080', '3060', '3070', '3080', '3090']
     gpu_model_suffix = ['ti', 'super']
 
     for len_count, _ in enumerate(df['Description']):

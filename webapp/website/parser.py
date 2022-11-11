@@ -57,12 +57,12 @@ def AmazonParser(path):
         try:
             manufaturer.append(temp_manufaturer[0])
         except:
-            manufaturer.append('')
+            manufaturer.append(None)
 
         try:
             memory.append(temp_memory[0].replace('GB', ''))
         except:
-            memory.append('')
+            memory.append(None)
 
         try:
             model.append(temp_model[0])
@@ -87,7 +87,7 @@ def getPrice():
         temp_price = []
         temp_price.append(cost)
         try:
-            price.append(temp_price[0].replace('$', ''))
+            price.append(temp_price[0].replace('$', '').replace(',', ''))
         except:
             price.append('')
 

@@ -1,20 +1,21 @@
 from werkzeug.security import generate_password_hash
-import os
-import sys
+# import os
+# import sys
 
 # directory reach
-current = os.path.dirname(os.path.realpath(__file__))
+# current = os.path.dirname(os.path.realpath(__file__))
 
 # setting path
-parent = os.path.dirname(current)
+# parent = os.path.dirname(current)
 
 # Through parent website/<file> 
-sys.path.append(parent)
-from parser import createAmazonTuple
+# sys.path.append(parent)
+from website.parser import createAmazonTuple
 
 #Current directly
-from .db_conn import get_db_conn #add a '.' when running from wsgi and remove it when running file independently
-from .db_tables import drop_gpu_table, create_tables
+# add a '.' to front of db_conn and tables when running from wsgi and remove it when running file independently
+from .db_conn import get_db_conn #add a '.' 
+from .db_tables import drop_gpu_table, create_tables #add a '.' 
 
 
 # Default password for admin

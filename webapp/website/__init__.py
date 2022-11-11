@@ -5,6 +5,7 @@ from website.db.db_insert import insert_to_db
 import psycopg2
 import website.scrapper.NeweggScraper as NWS
 import website.scrapper.amazonscrapper as AWSC
+import time
 
 
 def create_app():
@@ -19,6 +20,8 @@ def create_app():
     # glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table
     AWSC.runSearch("gpu")  # ls 11/09/2022 using Dave's scraper to init the DB
     create_tables() # current drops all table use other functions to drop specific ones later 
+    
+    time.sleep(30)
     insert_to_db()
 
     return app

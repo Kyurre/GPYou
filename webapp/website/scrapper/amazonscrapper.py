@@ -57,7 +57,7 @@ def runSearch(search_term):
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
-    options.page_load_strategy = 'normal'
+    options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
     service = Service(
         executable_path="webapp/website/webdrivers/chromedriver.exe")
     driver = webdriver.Chrome(options=options, service=service)
@@ -79,7 +79,7 @@ def runSearch(search_term):
 
     driver.close()
 
-    # print(records)
+    #print(records)
 
     # save data to csv file
     with open('webapp/website/csv/gpu.csv', 'w', newline='', encoding='utf-8') as f:
@@ -87,3 +87,5 @@ def runSearch(search_term):
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
         writer.writerows(records)
+        
+# runSearch('gpu')

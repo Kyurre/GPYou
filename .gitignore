@@ -1,7 +1,6 @@
 webapp/website/geckodriver.log
 geckodriver.log
 webapp/website/__pycache__/__init__.cpython-310.pyc
-.gitignore
 webapp/website/__pycache__/db_conn.cpython-310.pyc
 webapp/website/db/__pycache__/db_conn.cpython-310.pyc
 webapp/website/db/__pycache__/db_tables.cpython-310.pyc

@@ -3,6 +3,7 @@ import psycopg2
 from werkzeug.security import generate_password_hash
 import website.NeweggScraper as NWS
 import website.amazonscrapper as AWSC
+from website.db_conn import get_db_conn
 # DB_NAME = 'postgres'
 # DB_USER = 'postgres'
 # DB_PASS = 'Csc394ishard'
@@ -16,6 +17,7 @@ DB_PASS = 'bu36yc5g'
 DB_PORT = 5432
 # changed to admin for simplicity dk 11-9-22
 DEFAULT_ADMIN_PASS = generate_password_hash('admin')
+conn = get_db_conn()
 
 
 def create_app():
@@ -29,25 +31,13 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
     # glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table
     AWSC.runSearch("gpu")  # ls 11/09/2022 using Dave's scraper to init the DB
-    get_db_conn()
+    conn
     create_tables()
 
     return app
 
-# connect to the database
-
-
-def get_db_conn():
-    #conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
-    conn = psycopg2.connect(host=DB_HOST, dbname=DB_NAME,
-                            user=DB_USER, password=DB_PASS, port=DB_PORT)
-    return conn
-
 
 def create_tables():
-    #conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS)
-    conn = get_db_conn()
-
     cur = conn.cursor()
 
     cur.execute('DROP TABLE IF EXISTS GPUS CASCADE')
@@ -108,35 +98,35 @@ def create_tables():
                 ''')
 
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Micro Center', 'GTX 3050', 'Asus', 8, 429.99, false,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Micro Center', 'GTX 3050', 'Asus', 8, 429.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Micro Center', 'GTX 3050', 'MSI', 8, 339.99, true,true)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Micro Center', 'GTX 3050', 'MSI', 8, 339.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Micro Center', 'GTX 3050', 'EVGA', 8, 329.99, true,true)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Micro Center', 'GTX 3050', 'EVGA', 8, 329.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 379.99, true,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 379.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 399.99, true,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Micro Center', 'GTX 3060', 'Nvidia', 12, 399.99, '' )''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Best Buy', 'GTX 3080', 'Asus', 8, 429.99, false,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Best Buy', 'GTX 3080', 'Asus', 8, 429.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Best Buy', 'GTX 3080ti', 'MSI', 8, 339.99, true,true)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Best Buy', 'GTX 3080ti', 'MSI', 8, 339.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Best Buy', 'GTX 3070', 'EVGA', 8, 329.99, true,true)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Best Buy', 'GTX 3070', 'EVGA', 8, 329.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Best Buy', 'GTX 3070 Super', 'Nvidia', 12, 379.99, true,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Best Buy', 'GTX 3070 Super', 'Nvidia', 12, 379.99, '')''')
     cur.execute('''
-                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, inStock, onSale) 
-                VALUES('Best Buy', 'GTX 3060', 'EVGA', 12, 399.99, true,false)''')
+                INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link) 
+                VALUES('Best Buy', 'GTX 3060', 'EVGA', 12, 399.99, '')''')
 
     cur.close()
     conn.commit()

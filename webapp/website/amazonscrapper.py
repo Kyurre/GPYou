@@ -57,6 +57,8 @@ def runSearch(search_term):
 
     # Startup the chrome webdriver
     options = Options()
+    options.add_argument('--headless')
+    options.add_argument("--no-sandbox")
     options.page_load_strategy = 'normal'
     service = Service(
         executable_path="webapp/website/webdrivers/chromedriver.exe")
@@ -95,4 +97,4 @@ def runSearch(search_term):
         writer.writerows(records)
 
 
-# runSearch('gpu')
+runSearch('gpu')

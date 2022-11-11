@@ -60,7 +60,7 @@ def AmazonParser(path):
             manufaturer.append('')
 
         try:
-            memory.append(temp_memory[0])
+            memory.append(temp_memory[0].replace('GB', ''))
         except:
             memory.append('')
 
@@ -87,11 +87,11 @@ def getPrice():
         temp_price = []
         temp_price.append(cost)
         try:
-            price.append(temp_price[0])
+            price.append(temp_price[0].replace('$', ''))
         except:
             price.append('')
 
-    # print(len(price))
+    # print(price)
 
 
 def getURL():
@@ -120,3 +120,6 @@ def createAmazonTuple():
 
 # Use this to run the parser.py locally to test that it prints a tuple
 # createAmazonTuple()
+
+
+

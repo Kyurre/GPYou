@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # takes path to a csv
-path = 'WebServer_v0/website/csv/gpu.csv'
+path = 'webapp/website/csv/gpu.csv'
 
 # Master records to append to
 manufaturer = []
@@ -28,7 +28,8 @@ def AmazonParser(path):
     # List of details to compare to
     manufaturer_names = ['nvidia', 'asus',
                          'msi', 'evga', 'maxsun', 'amd', 'zotac']
-    memory_size = ['24gb', '16gb', '12gb', '11gb', '10gb', '8gb', '6gb', '4gb']
+    memory_size = ['24gb', '16gb', '12gb', '11gb',
+                   '10gb', '8gb', '6gb', '4gb', '2gb']
     model_name = ['1030', '1050', '1650', '1660', '1080', '1070',
                   '2060', '2070', '2080', '3060', '3070', '3080']
     gpu_model_suffix = ['ti', 'super']
@@ -96,13 +97,7 @@ def getPrice():
 def getURL():
     df = pd.read_csv(path)
     for len_count, link in enumerate(df['Url']):
-        temp_URL = []
-        temp_URL.append(link)
-
-        try:
-            URL.append(temp_URL[0])
-        except:
-            URL.append('')
+        URL.append(link)
 
     # print(URL)
     # print(len(URL))
@@ -119,8 +114,9 @@ def createAmazonTuple():
                   manufaturer[i], memory[i], price[i], URL[i])
         records.append(result)
 
-    # print(records)
+    print(records[0])
     return records
+
 
 # Use this to run the parser.py locally to test that it prints a tuple
 # createAmazonTuple()

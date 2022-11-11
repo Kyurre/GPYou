@@ -59,7 +59,7 @@ def runSearch(search_term):
     options = Options()
     options.page_load_strategy = 'normal'
     service = Service(
-        executable_path="WebServer_v0/website/webdrivers/chromedriver.exe")
+        executable_path="webapp/website/webdrivers/chromedriver.exe")
     driver = webdriver.Chrome(options=options, service=service)
 
     # Firefox driver use firefox imports
@@ -88,7 +88,7 @@ def runSearch(search_term):
     # print(records)
 
     # save data to csv file
-    with open('gpu.csv', 'w', newline='', encoding='utf-8') as f:
+    with open('webapp/website/csv/gpu.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])

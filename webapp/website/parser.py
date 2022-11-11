@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # takes path to a csv
-path = 'WebServer_v0/website/csv/gpu.csv'
+path = 'webapp/website/csv/gpu.csv'
 
 # Master records to append to
 manufaturer = []
@@ -14,20 +14,22 @@ URL = []
 
 
 def AmazonParser(path):
+    # results_path = 'WebServer_v0/website/csv/results.csv'
 
-    df = pd.read_csv(path)
     # Get current working directory
     #cwd = os.getcwd()
     #files = os.listdir(cwd)
     #print(f"Files in {cwd}: {files}")
 
     # creates a results.csv that is cleaner and does not contain headers. It is ready to scrape.
+    df = pd.read_csv(path)
     # df.to_csv(results_path, sep='\t', header=None, mode='a')
 
     # List of details to compare to
     manufaturer_names = ['nvidia', 'asus',
                          'msi', 'evga', 'maxsun', 'amd', 'zotac']
-    memory_size = ['24gb', '16gb', '12gb', '11gb', '10gb', '8gb', '6gb', '4gb']
+    memory_size = ['24gb', '16gb', '12gb', '11gb',
+                   '10gb', '8gb', '6gb', '4gb', '2gb']
     model_name = ['1030', '1050', '1650', '1660', '1080', '1070',
                   '2060', '2070', '2080', '3060', '3070', '3080']
     gpu_model_suffix = ['ti', 'super']
@@ -96,6 +98,7 @@ def getURL():
     df = pd.read_csv(path)
     for len_count, link in enumerate(df['Url']):
         URL.append(link)
+
     # print(URL)
     # print(len(URL))
 
@@ -111,7 +114,7 @@ def createAmazonTuple():
                   manufaturer[i], memory[i], price[i], URL[i])
         records.append(result)
 
-    # print(records)
+    # print(records[0])
     return records
 
 

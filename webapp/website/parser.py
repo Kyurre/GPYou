@@ -3,7 +3,7 @@ import os
 from website.scrapper.amazonscrapper import runSearch
 
 # takes path to a csv
-path = 'webapp/website/csv/gpu.csv'
+path = 'website/csv/gpu.csv'
 
 # Master records to append to
 manufaturer = []

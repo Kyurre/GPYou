@@ -59,7 +59,7 @@ def runSearch(search_term):
     options.add_argument("--no-sandbox")
     options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
     service = Service(
-        executable_path="webapp/website/webdrivers/chromedriver.exe")
+        executable_path="/usr/bin/chromedriver")
     driver = webdriver.Chrome(options=options, service=service)
 
     records = []
@@ -82,7 +82,7 @@ def runSearch(search_term):
     #print(records)
 
     # save data to csv file
-    with open('webapp/website/csv/gpu.csv', 'w', newline='', encoding='utf-8') as f:
+    with open('website/csv/gpu.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])

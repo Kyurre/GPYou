@@ -1,10 +1,18 @@
+# ignore all log
 webapp/website/geckodriver.log
 geckodriver.log
-webapp/website/__pycache__/parser.cpython-310.pyc
-webapp/website/db/__pycache__/__init__.cpython-310.pyc
+
+# ignore any py cache files
+*.pyc
+**/cpython-310
+webapp/website/__pycache__/__init__.cpython-310.pyc
+webapp/website/__pycache__/db_conn.cpython-310.pyc
 webapp/website/db/__pycache__/db_conn.cpython-310.pyc
-webapp/website/db/__pycache__/db_insert.cpython-310.pyc
 webapp/website/db/__pycache__/db_tables.cpython-310.pyc
-webapp/website/scrapper/__pycache__/__init__.cpython-310.pyc
-webapp/website/scrapper/__pycache__/amazonscrapper.cpython-310.pyc
 webapp/website/scrapper/__pycache__/NeweggScraper.cpython-310.pyc
+webapp/website/scrapper/__pycache__/amazonscrapper.cpython-310.pyc
+webapp/website/__pycache__/__init__.cpython-310.pyc
+webapp/website/__pycache__/__init__.cpython-310.pyc
+webapp/website/__pycache__/auth.cpython-310.pyc
+webapp/website/__pycache__/auth.cpython-310.pyc
+

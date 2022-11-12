@@ -3,9 +3,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.firefox.service import Service
-# from selenium.webdriver.firefox.options import Options
-# from webdriver_manager.firefox import GeckoDriverManager
 # this file was authored by Dave P.
 
 
@@ -54,19 +51,16 @@ def runSearch(search_term):
     """Run main program routine"""
     # URL: https://chromedriver.chromium.org/
     # Debug: https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/
+    # options.binary_location = r"your\path\chrome"
 
     # Startup the chrome webdriver
     options = Options()
-    options.page_load_strategy = 'normal'
+    options.add_argument('--headless')
+    options.add_argument("--no-sandbox")
+    options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
     service = Service(
         executable_path="webapp/website/webdrivers/chromedriver.exe")
     driver = webdriver.Chrome(options=options, service=service)
-
-    # Firefox driver use firefox imports
-    # options = Options()
-    # options.binary_location = r"C:\Program Files (x86)\Mozilla Firefox"
-    # driver = webdriver.Firefox(options=options)
-    # driver = webdriver.Firefox(options=options, executable_path=GeckoDriverManager().install()) #ls
 
     records = []
     url = get_url(search_term)
@@ -85,7 +79,7 @@ def runSearch(search_term):
 
     driver.close()
 
-    # print(records)
+    #print(records)
 
     # save data to csv file
     with open('webapp/website/csv/gpu.csv', 'w', newline='', encoding='utf-8') as f:
@@ -93,6 +87,5 @@ def runSearch(search_term):
         writer.writerow(
             ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
         writer.writerows(records)
-
-
+        
 # runSearch('gpu')

@@ -30,8 +30,8 @@ def AmazonParser(path):
                          'msi', 'evga', 'maxsun', 'amd', 'zotac']
     memory_size = ['24gb', '16gb', '12gb', '11gb',
                    '10gb', '8gb', '6gb', '4gb', '2gb']
-    model_name = ['1030', '1050', '1650', '1660', '1080', '1070',
-                  '2060', '2070', '2080', '3060', '3070', '3080']
+    model_name = ['1030', '1050', '1650', '1660', '1060', '1070', '1080',
+                  '2060', '2070', '2080', '3060', '3070', '3080', '3090']
     gpu_model_suffix = ['ti', 'super']
 
     for len_count, _ in enumerate(df['Description']):
@@ -57,12 +57,12 @@ def AmazonParser(path):
         try:
             manufaturer.append(temp_manufaturer[0])
         except:
-            manufaturer.append('')
+            manufaturer.append(None)
 
         try:
-            memory.append(temp_memory[0])
+            memory.append(temp_memory[0].replace('GB', ''))
         except:
-            memory.append('')
+            memory.append(None)
 
         try:
             model.append(temp_model[0])
@@ -87,11 +87,11 @@ def getPrice():
         temp_price = []
         temp_price.append(cost)
         try:
-            price.append(temp_price[0])
+            price.append(temp_price[0].replace('$', '').replace(',', ''))
         except:
             price.append('')
 
-    # print(len(price))
+    # print(price)
 
 
 def getURL():
@@ -120,3 +120,6 @@ def createAmazonTuple():
 
 # Use this to run the parser.py locally to test that it prints a tuple
 # createAmazonTuple()
+
+
+

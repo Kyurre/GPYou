@@ -18,10 +18,10 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     # glist = NWS.NewEggScrapperFunc() # ls 11/09/2022 using Kosta's scraper to init database GPU table
-    AWSC.runSearch("gpu")  # ls 11/09/2022 using Dave's scraper to init the DB
+    # AWSC.runSearch("gpu")  # ls 11/09/2022 using Dave's scraper to init the DB
     create_tables() # current drops all table use other functions to drop specific ones later 
     
-    time.sleep(30)
+    #time.sleep(30)
     insert_to_db()
 
     return app

@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from website.scrapper.amazonscrapper import runSearch
 
 # takes path to a csv
 path = 'webapp/website/csv/gpu.csv'
@@ -104,6 +105,7 @@ def getURL():
 
 
 def createAmazonTuple():
+    runSearch('gpu')
     AmazonParser(path)
     getPrice()
     getURL()

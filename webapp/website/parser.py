@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 # takes path to a csv
-path = 'webapp/website/csv/gpu.csv'
+path = 'website/gpu.csv'
 
 # Master records to append to
 manufaturer = []

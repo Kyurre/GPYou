@@ -1,6 +1,6 @@
 from time import sleep
-from website.db.db_conn import get_db_conn
-from flask import Blueprint, render_template, request, session, redirect, url_for, abort, flash
+from website.db_conn import get_db_conn
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
@@ -89,7 +89,7 @@ def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     flash('Logged out.')
-    return render_template('home.html')
+    return redirect(url_for('auth.login'))
 
 # Create Admin Page
 

@@ -1,184 +1,201 @@
 <!DOCTYPE html>
-    <html>
-        <Head>
-            <title>Home Page LoggedIn</title>
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-            
-        </Head>
-        <body style="background-color: white;">
-            <!-- Header section-->
-            <header>
-                <section id = "header" class = "header">
-                   <!-- <h1>GPU Web Scraper</h1> -->
-                </section>
-            </header>
-            {% extends "base.html" %} {% block title %}Home{% endblock %}
-            {% block content %}
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/slideshow.css') }}"
+    />
+  </head>
+  <body style="background-color: white">
+    <!-- Header section-->
 
-            <div class="gb-padding"><!--Start of grid for element stacking-->
+    <section id="header" class="header">
+      <header>
+        <!-- -->
+      </header>
+    </section>
+    {% extends "base.html" %} {% block content %}
 
-                <!-- Search box -->
-                <div class="sb-content">
-                    <div class  = "searchbox">
-                        <h3 class = "title" align="center">Search For A GPU!</h3>
-                            <hr>
-                            <h6>Filters</h6>
-                            <hr>
-                            <form action="{{url_for('auth.search')}}">
-                                <h6>General</h6>
-                                    <input type="checkbox" id="onsale">
-                                    <label for="onsale">On Sale</label><br>
+    <div class="gb-padding">
+      <!--Start of grid for element stacking-->
 
-                                    <input type="checkbox" id="instock">
-                                    <label for="instock">In Stock</label><br>
+      <!-- Search box -->
+      <div class="sb-content">
+        <div class="searchbox">
+          <h3 class="title" align="center">Search For A GPU!</h3>
+          <hr />
+          <h6>Filters</h6>
+          <hr />
+          <form id="searchbar" method='POST' action="{{url_for('auth.search')}}">
+            <input
+              type="search"
+              id="searchquery"
+              name="searchbar"
+              placeholder="Search for a GPU!"
+            />
+            <button>Search</button>
+          </form>
+          <!--
+        <h6>General</h6>
+            <input type="checkbox" id="onsale">
+            <label for="onsale">On Sale</labe
+             <input type="checkbox" id="instock">
+            <label for="instock">In Stock</labe
 
-                                <hr>
+           <h6>Memory Size</h6>
+            <input type="checkbox" id="24gb">
+            <label for="24gb">24GB</labe
+             <input type="checkbox" id="16gb">
+            <label for="16gb">16GB</labe
+             <input type="checkbox" id="12gb">
+            <label for="12gb">12GB</labe
+             <input type="checkbox" id="11gb">
+            <label for="11gb">11GB</labe
+             <input type="checkbox" id="10gb">
+            <label for="10gb">10GB</labe
+             <input type="checkbox" id="8gb">
+            <label for="8gb">8GB</labe
 
-                                <h6>Memory Size</h6>
-                                    <input type="checkbox" id="24gb">
-                                    <label for="24gb">24GB</label><br>
+           <h6>Manufactuer</h6>
+            <input type="checkbox" id="Asus">
+            <label for="asus">Asus</labe
+             <input type="checkbox" id="MSI">
+            <label for="msi">MSI</labe
+             <input type="checkbox" id="EVGA">
+            <label for="evga">EVGA</labe
+             <input type="checkbox" id="Nvidia">
+            <label for="nvidia">Nvidia</labe
 
-                                    <input type="checkbox" id="16gb">
-                                    <label for="16gb">16GB</label><br>
+           <h6>Max Price</h6>
+        <select name="maxprice" id="maxprice">
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500</option>
+            <option value="600">600</option>
+            <option value="700+">700+</option>
+        </s
 
-                                    <input type="checkbox" id="12gb">
-                                    <label for="12gb">12GB</label><br>
+           <h6>Select GPU</h6>
+        <select name="gpuname" id="gpuname">
+            <option value="3050">GTX 3050</option>
+            <option value="3050ti">GTX 3050ti</option>
+            <option value="3060">GTX 3060</option>
+            <option value="3070">GTX 3070</option>
+            <option value="3070super">GTX 3070 Super</option>
+            <option value="3080">GTX 3080</option>
+            <option value="3080ti">GTX 3080ti</option>
+        </select>
 
-                                    <input type="checkbox" id="11gb">
-                                    <label for="11gb">11GB</label><br>
-
-                                    <input type="checkbox" id="10gb">
-                                    <label for="10gb">10GB</label><br>
-
-                                    <input type="checkbox" id="8gb">
-                                    <label for="8gb">8GB</label><br>
-
-                                <hr>
-
-                                <h6>Manufactuer</h6>
-                                    <input type="checkbox" id="Asus">
-                                    <label for="asus">Asus</label><br>
-
-                                    <input type="checkbox" id="MSI">
-                                    <label for="msi">MSI</label><br>
-
-                                    <input type="checkbox" id="EVGA">
-                                    <label for="evga">EVGA</label><br>
-
-                                    <input type="checkbox" id="Nvidia">
-                                    <label for="nvidia">Nvidia</label><br>
-
-                                <hr>
-
-                                <h6>Max Price</h6>
-                                <select name="maxprice" id="maxprice">
-                                    <option value="100">100</option>
-                                    <option value="200">200</option>
-                                    <option value="300">300</option>
-                                    <option value="400">400</option>
-                                    <option value="500">500</option>
-                                    <option value="600">600</option>
-                                    <option value="700+">700+</option>
-                                </select>
-
-                                <hr>
-
-                                <h6>Select GPU</h6>
-                                <select name="gpuname" id="gpuname">
-                                    <option value="3050">GTX 3050</option>
-                                    <option value="3050ti">GTX 3050ti</option>
-                                    <option value="3060">GTX 3060</option>
-                                    <option value="3070">GTX 3070</option>
-                                    <option value="3070super">GTX 3070 Super</option>
-                                    <option value="3080">GTX 3080</option>
-                                    <option value="3080ti">GTX 3080ti</option>
-                                </select>
-                            
-                                <br><br>
-                                <input type="submit" value="Search">
-                            </form>
+         <br><br>
+        <input type="submit" value="Search">
+</fo    rm>
         
                             
+                            -->
+        </div>
+      </div>
+      <!-- search box end-->
+      <hr />
+      <br /><br />
 
+      <!-- Gooogle maps box or (location box)-->
+      <!-- Gooogle maps embedded location this embeds a specific loaction into the hmtl of the page placeable anywhere-->
+      <div class="GMB">
+        <h3 class="title" align="center">Nearest Vendor</h3>
+        <hr />
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d381500.41937994666!2d-87.91967085833349!3d41.66714812830752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd28e80473f2b%3A0xf764d92e5f4fa3ba!2sMicro%20Center!5e0!3m2!1sen!2sus!4v1665961670465!5m2!1sen!2sus"
+          width="100%"
+          height="400"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
+      <!-- Google maps box end-->
 
-                            
-                    </div>
-                </div><!-- search box end-->
-                <hr>
-                <br><br>
+      <hr />
+      <br /><br />
 
-                <!-- Gooogle maps box or (location box)-->
-                <!-- Gooogle maps embedded location this embeds a specific loaction into the hmtl of the page placeable anywhere-->
-                <div class  = "GMB">
-                    <h3 class = "title" align="center">Nearest Vendor</h3>
-                    <hr>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d381500.41937994666!2d-87.91967085833349!3d41.66714812830752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fd28e80473f2b%3A0xf764d92e5f4fa3ba!2sMicro%20Center!5e0!3m2!1sen!2sus!4v1665961670465!5m2!1sen!2sus" 
-                    width="100%" 
-                    height="400" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>  
-                </div><!-- Google maps box end-->
+      <!--Trends content section-->
+      <!--Integreates a funtionality where a box displays common gpu watches among users-->
+      <div class="grid-body">
+        <h3 class="title" align="center">Trending Topics</h3>
+        <hr />
+        <div class="col">
+          <div class="grid-body">
+            <div class="row">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/Wiw4fhFM7rQ"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
 
-                <hr>
-                <br><br>
+            <div class="row">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/Qq5qD1laED4"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
 
-                <!--Trends content section-->
-                <!--Integreates a funtionality where a box displays common gpu watches among users-->
-                    <div class = "grid-body">
-                        <h3 class="title" align="center">Trending Topics</h3>
-                        <hr>
-                        <div class="col">
-                            <div class = "grid-body">
-                                <div class="row">
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Wiw4fhFM7rQ" 
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                                    </iframe>
-                                </div>
+            <div class="row">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.tomshardware.com/news/geforce-rtx-4090-has-a-spirit-level-to-prevent-gpu-sagging"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
 
-                                <div class="row">
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Qq5qD1laED4" 
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                                    </iframe>
-                                </div>
+            <div class="row">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/6T9d9LM1TwY"
+                title="YouTube video player"
+                frameborder="0"
+                llow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                                <div class="row">
-                                    <iframe width="560" height="315" src="https://www.tomshardware.com/news/geforce-rtx-4090-has-a-spirit-level-to-prevent-gpu-sagging" 
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                                    </iframe>
-                                </div>
+      <!-- Trends Content section end-->
 
-                                <div class="row">
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/6T9d9LM1TwY" 
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    llow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen>
-                                    </iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <hr />
+    </div>
+    <!--End of grid for element stacking-->
 
-                <!-- Trends Content section end-->
+    i
 
-                <hr>
-
-
-            </div><!--End of grid for element stacking-->
-
-            
-            
-
-            <h8>version 1.0, developed by Jayden Godbold</h8>
-            {% endblock %}
-        </body>
-    </html>
+    <h8>version 1.0, developed by Jayden Godbold</h8>
+    {% endblock %}
+  </body>
+</html>

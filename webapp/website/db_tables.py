@@ -33,7 +33,6 @@ def drop_users_table():
 
     cur.close()
     conn.commit()
-    pass
 
 
 def drop_favorites_table():

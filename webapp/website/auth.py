@@ -1,6 +1,8 @@
 import functools
 from time import sleep
 import psycopg2
+from website.amazonscrapper import runSearch
+from website.db_insert import insert_to_db
 from website.db_conn import get_db_conn
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash, g
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -104,7 +106,8 @@ def login():
 def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
-        print("route - login - request method POST: User Name: " + session['username'])
+        print("route - login - request method POST: User Name: " + \
+              session['username'])
         password = request.form.get('password')
         conn = get_db_conn()
         cur = conn.cursor()
@@ -123,11 +126,11 @@ def login():
                 return redirect(url_for('views.home'))
             else:
                 flash('Incorrect password.', category='error')
-            
+
             session['user_id'] = account[0]
         else:
             flash('User does not exist.', category='error')
-        #print(session['username'])
+        # print(session['username'])
 
     return render_template("login.html")
 """
@@ -157,21 +160,31 @@ def admin():
 # grab form data from home page form and print on results
 
 
-@auth.route('/search', methods=['POST','GET'])
+@auth.route('/search', methods=['POST', 'GET'])
 def search():
     conn = get_db_conn()
     cur = conn.cursor()
     if request.method == 'POST':
+        path = 'website/gpu.csv'
         term = request.form['searchbar']
-        print(term)
+        # print(term)
+        runSearch(term, path)
+        insert_to_db(path)
         cur.execute('''
-                    SELECT store, gpu, manufacturer, memory, price FROM GPUS 
-                    WHERE gpu LIKE %s''',
-                    (term,))
-        conn.commit()
+                   SELECT store, gpu, manufacturer, memory, price FROM GPUS
+                   WHERE gpu like %s''',
+                    (('%'+term+'%',)))
+        # cur.execute('''
+        #            SELECT store, gpu, manufacturer, memory, price FROM GPUS
+        #            WHERE gpu = %s''',
+        #            (term,))
+        # conn.commit()
         data = cur.fetchall()
         print(data)
+        cur.close()
+        conn.commit()
         return render_template("results.html", list=data)
+
     return render_template('home.html')
     # cur.execute('SELECT store, gpu, manufacturer, memory, price FROM GPUS')
     # glist = cur.fetchall()
@@ -179,7 +192,7 @@ def search():
     # add users to the database
 
 
-@auth.route('/add_user', methods=['POST', 'GET'])  # type: ignore
+@ auth.route('/add_user', methods=['POST', 'GET'])  # type: ignore
 def add_user():
     conn = get_db_conn()
     if request.method == 'POST':
@@ -213,7 +226,7 @@ def add_user():
 # update users in the database
 
 
-@auth.route('/update/<string:id>', methods=['POST', 'GET'])
+@ auth.route('/update/<string:id>', methods=['POST', 'GET'])
 def update(id):
     conn = get_db_conn()
     cur = conn.cursor()
@@ -269,7 +282,7 @@ def update(id):
 # remove users from the database
 
 
-@auth.route('/delete/<string:id>', methods=['POST', 'GET'])
+@ auth.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete(id):
     conn = get_db_conn()
     cur = conn.cursor()

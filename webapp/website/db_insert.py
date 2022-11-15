@@ -51,6 +51,7 @@ def insert_to_db(path):
     amazon_gpu_list = createAmazonTuple(path)
 
     for i in range(0, len(amazon_gpu_list)):
+        # print(amazon_gpu_list[i])
         cur.execute(insert_smt, amazon_gpu_list[i])
 
     cur.close()

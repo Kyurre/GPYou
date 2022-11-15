@@ -14,7 +14,7 @@ def get_url(search_term):
     url = template.format(search_term)
 
     # add page query placeholder
-    url += '&page{}'
+    url += '&page={}'
 
     return url
 
@@ -57,16 +57,19 @@ def runSearch(search_term, path):
     options = Options()
     options.add_argument('--headless')
     options.add_argument("--no-sandbox")
-    options.add_experimental_option("excludeSwitches",["ignore-certificate-errors"])
+    options.page_load_strategy = 'normal'
+    options.add_experimental_option(
+        "excludeSwitches", ["ignore-certificate-errors"])
     service = Service(
         executable_path="C:/Users/Kyurre/AppData/Local/Programs/Python/Python310/chromedriver.exe")
     driver = webdriver.Chrome(options=options, service=service)
 
     records = []
     url = get_url(search_term)
+    #url = 'https://www.amazon.com/s?k=gpu&ref=nb_sb_noss_1'
 
     # Go through max of 20 pages on amazon and parse information
-    for page in range(1, 5):
+    for page in range(1, 10):
         driver.get(url.format(page))
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         results = soup.find_all(
@@ -79,7 +82,7 @@ def runSearch(search_term, path):
 
     driver.close()
 
-    #print(records)
+    # print(records)
 
     # save data to csv file
     try:
@@ -90,5 +93,6 @@ def runSearch(search_term, path):
             writer.writerows(records)
     except FileNotFoundError:
         print("Couldn't find file in specified path")
-        
-# runSearch('gpu', 'website/gpu.csv')
+
+
+#runSearch('gpu', 'gpu.csv')

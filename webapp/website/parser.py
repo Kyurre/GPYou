@@ -1,9 +1,9 @@
 import pandas as pd
 import os
-from website.scrapper.amazonscrapper import runSearch
+import website.amazonscrapper as AWSC
 
 # takes path to a csv
-path = 'website/csv/gpu.csv'
+# path = 'website/gpu.csv'
 
 # Master records to append to
 manufaturer = []
@@ -82,7 +82,7 @@ def AmazonParser(path):
     # print(len(gpu_suffix))
 
 
-def getPrice():
+def getPrice(path):
     df = pd.read_csv(path)
     for len_count, cost in enumerate(df['Price']):
         temp_price = []
@@ -95,7 +95,7 @@ def getPrice():
     # print(price)
 
 
-def getURL():
+def getURL(path):
     df = pd.read_csv(path)
     for len_count, link in enumerate(df['Url']):
         URL.append(link)
@@ -104,11 +104,11 @@ def getURL():
     # print(len(URL))
 
 
-def createAmazonTuple():
-    runSearch('gpu')
+def createAmazonTuple(path):
+    # AWSC.runSearch("GPU", path)
     AmazonParser(path)
-    getPrice()
-    getURL()
+    getPrice(path)
+    getURL(path)
     records = []
     store = 'Amazon'
     for i in range(0, len(manufaturer)):
@@ -121,7 +121,8 @@ def createAmazonTuple():
 
 
 # Use this to run the parser.py locally to test that it prints a tuple
-# createAmazonTuple()
+# for local use <name>.csv and for flask run, make sure it is website/<name>.csv
+# createAmazonTuple('test.csv')
 
 
 

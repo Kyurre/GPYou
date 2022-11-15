@@ -22,8 +22,6 @@ def login_required(view):
     return wrapped_view
 
 
-
-
 # User registration
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -74,7 +72,7 @@ def login():
         conn = get_db_conn()
         cur = conn.cursor()
         error = None
-        cur.execute('SELECT * FROM USERS WHERE username  = %s;', (username,))
+        cur.execute('SELECT * FROM USERS WHERE username  = %s', (username,))
         user = cur.fetchone()
         # print(user)
 
@@ -220,25 +218,40 @@ def update(id):
 
         if len(username) < 2:
             flash('Username must be more than two characters long.', category='error')
-        elif len(password) < 6:
-            flash('Password must be longer than six characters.', category='error')
+        elif 0 < len(password) < 6:
+            flash('Password must be longer than five characters.', category='error')
         elif role != 'true' and role != 'false':
             flash("Role must be set to true or false.", category='error')
         else:
             # ls need try catch blcok to handle duplicate key values
-            try:
-                test = cur.execute('''
-                        UPDATE USERS u SET
-                        username = %s, password = %s, isAdmin = %s
-                        WHERE user_id = %s
-                        ''', (username, generate_password_hash(password), role, id))
-                print(test.__str__)
-                conn.commit()
-                flash('User updated.', category='success')
-            except:
-                print("Crash! duplicate key found")
-                flash('Username has already been taken.', category='error')
-            return redirect(url_for('auth.admin'))
+            if len(password) == 0:
+                try:
+                    test = cur.execute('''
+                            UPDATE USERS u SET
+                            username = %s, isAdmin = %s
+                            WHERE user_id = %s
+                            ''', (username, role, id))
+                    print(test.__str__)
+                    conn.commit()
+                    flash('User updated.', category='success')
+                except:
+                    print("Crash! duplicate key found")
+                    flash('Username has already been taken.', category='error')
+                return redirect(url_for('auth.admin'))
+            else:
+                try:
+                    test = cur.execute('''
+                            UPDATE USERS u SET
+                            username = %s, password = %s, isAdmin = %s
+                            WHERE user_id = %s
+                            ''', (username, generate_password_hash(password), role, id))
+                    print(test.__str__)
+                    conn.commit()
+                    flash('User updated.', category='success')
+                except:
+                    print("Crash! duplicate key found")
+                    flash('Username has already been taken.', category='error')
+                return redirect(url_for('auth.admin'))
 
     return render_template('update.html', user=data[0])
 

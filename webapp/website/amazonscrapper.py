@@ -69,7 +69,7 @@ def runSearch(search_term, path):
     #url = 'https://www.amazon.com/s?k=gpu&ref=nb_sb_noss_1'
 
     # Go through max of 20 pages on amazon and parse information
-    for page in range(1, 10):
+    for page in range(1, 5):
         driver.get(url.format(page))
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         results = soup.find_all(

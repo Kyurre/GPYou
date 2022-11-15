@@ -171,7 +171,7 @@ def search():
         runSearch(term, path)
         insert_to_db(path)
         cur.execute('''
-                   SELECT store, gpu, manufacturer, memory, price FROM GPUS
+                   SELECT store, gpu, manufacturer, memory, price, link FROM GPUS
                    WHERE gpu like %s''',
                     (('%'+term+'%',)))
         # cur.execute('''

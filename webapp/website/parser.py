@@ -105,6 +105,7 @@ def getURL(path):
 
 
 def createAmazonTuple(path):
+    print("Running AWScrapper")
     AWSC.runSearch("GPU", path)
     AmazonParser(path)
     getPrice(path)

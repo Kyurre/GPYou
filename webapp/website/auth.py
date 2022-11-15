@@ -22,8 +22,6 @@ def login_required(view):
     return wrapped_view
 
 
-
-
 # User registration
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -74,7 +72,7 @@ def login():
         conn = get_db_conn()
         cur = conn.cursor()
         error = None
-        cur.execute('SELECT * FROM USERS WHERE username  = %s;', (username,))
+        cur.execute('SELECT * FROM USERS WHERE username  = %s', (username,))
         user = cur.fetchone()
         # print(user)
 

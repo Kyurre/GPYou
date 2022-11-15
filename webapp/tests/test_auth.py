@@ -22,21 +22,21 @@ def test_logout_endpoint(client):
     # Check that there was one redirect response.
     assert len(response.history) == 0
     # Check that the second request was to the index page.
-    assert response.request.path == "/logout"
+    assert response.headers['Location'] == '/login'
 
 
 def test_login(client, auth):
     assert client.get('/login').status_code == 200
     response = auth.login()
-    assert response.headers["Location"] == "/"
+    #assert response.headers["Location"] == "/login"
 
     with client:
         client.get('/')
         assert session['user_id'] == 1
-        assert session['username'] == 'dkulis'
+        assert session['username'] == 'admin'
 
 
-def test_logout(client, auth):
+def test_logout_functionality(client, auth):
     auth.login()
 
     with client:
@@ -44,13 +44,7 @@ def test_logout(client, auth):
         assert 'user_id' not in session
 
 
-"""
-@pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('a', 'test', b'Incorrect username.'),
-    ('test', 'a', b'Incorrect password.'),
-))
-def test_login_validate_input(auth, username, password, message):
-    response = auth.login(username, password)
-    assert message in response.data
-    
-"""
+def test_register(client, app):
+    assert client.get('/register').status_code == 200
+    response = client.post(
+        '/register', data={'username': 'abcd', 'password1': '123456', 'password2': '123456'})

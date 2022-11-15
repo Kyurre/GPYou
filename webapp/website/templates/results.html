@@ -1,62 +1,78 @@
 <!DOCTYPE html>
-    <html>
-        <Head>
-            <title>Search Results</title>
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
-            
-        </Head>
-        <body style="background-color: white;">
-            <!-- Header section-->
-            <header>
-                <section id = "header" class = "header">
-                   <!-- <h1>GPU Web Scraper</h1> -->
-                </section>
-            </header>
-            {% extends "base.html" %} {% block title %}Home{% endblock %}
-            {% block content %}
+<html>
+  <head>
+    <title>Search Results</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/search.css') }}"
+    />
+  </head>
+  <body style="background-color: white">
+    <!-- Header section-->
+    <header>
+      <section id="header" class="header">
+        <!-- <h1>GPU Web Scraper</h1> -->
+      </section>
+    </header>
+    {% extends "base.html" %} {% block title %}Home{% endblock %} {% block
+    content %}
+    <style>
+      tr[data-href] {
+        cursor: pointer;
+      }
+    </style>
+    <!-- JG 11-8-22 prints list from auth.search -->
+    <div id="table1">
+      <table style="width:120%">
+        <thead>
+          <tr>
+            <th>Store</th>
+            <th>GPU</th>
+            <th>Manufacturer</th>
+            <th>Memory</th>
+            <th>Price</th>
+            <th>Link</th>
+            <th>Favorite</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in list %}
 
-            <!-- JG 11-8-22 prints list from auth.search -->
-        <div id = table1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Store</th>
-                        <th>GPU</th>
-                        <th>Manufacturer</th>
-                        <th>Memory</th>
-                        <th>Price</th>
-                        <th>Favorite</th>
-                    </tr>
-                </thead>
-                
-                    {% for row in list %}
-                    
-                    <tr>
-                        {% for gpu in row %}
-                            <td>{{ gpu }}</td>
-                        {% endfor %}  
-                        <td>
-                            <input type = "checkbox" id = "Favorite" onclick = favPopUp()>
-                            <p id = "text" style="display:none">Added to Favorites!</p>
-                        </td>
-                    </tr>
-                    {% endfor %}  
-                
-            </table>
-            <script>
-                // When the user clicks on div, open the popup
-                function favPopUp() {
-                    var checkBox = document.getElementById("Favorite");
-                    var text = document.getElementById("text");
-                    if (checkBox.checked == true){
-                        text.style.display = "block";
-                    } else {
-                        text.style.display = "none";
-                    }
-                }
-                </script>
-            {% endblock %}
-        </div>
-            </body>
-        </body>
-    </html>
+        <tr data-href="{{row[6]}}">
+          {% for gpu in row %}
+          <td>{{ gpu }}</td>
+          {% endfor %}
+          <td>
+            <input type="checkbox" id="Favorite" onclick="favPopUp()" />
+            <p id="text" style="display: none">Added to Favorites!</p>
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody
+      </table>
+      <script>
+        doument.addEventListener("DOMContentLoaded", () => {
+          const rows = document.querySelectorAll("tr[data-href");
+          rows.forEach((row) => {
+            row.addEventListener("click", () => {
+              window.location.href = row.dataset.href;
+            });
+          });
+        });
+      </script>
+      <script>
+        // When the user clicks on div, open the popup
+        function favPopUp() {
+          var checkBox = document.getElementById("Favorite");
+          var text = document.getElementById("text");
+          if (checkBox.checked == true) {
+            text.style.display = "block";
+          } else {
+            text.style.display = "none";
+          }
+        }
+      </script>
+      {% endblock %}
+    </div>
+  </body>
+</html>

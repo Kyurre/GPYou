@@ -1,4 +1,5 @@
-from .db_conn import get_db_conn #change to .db_conn when executing wsgi
+# change to .db_conn when executing wsgi
+from website.db_conn import get_db_conn
 
 
 def drop_all_tables():
@@ -22,7 +23,6 @@ def drop_gpu_table():
 
     cur.close()
     conn.commit()
-    pass
 
 
 def drop_users_table():
@@ -44,7 +44,6 @@ def drop_favorites_table():
 
     cur.close()
     conn.commit()
-    pass
 
 
 def create_tables():

@@ -22,6 +22,5 @@ def create_app():
     create_admin()
 
     # provide path to csv and comment out durning pytest
-    insert_to_db('website/gpu.csv')
-
+    # insert_to_db('website/gpu.csv')
     return app

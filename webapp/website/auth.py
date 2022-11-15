@@ -157,14 +157,24 @@ def admin():
 # grab form data from home page form and print on results
 
 
-@auth.route('/search')
+@auth.route('/search', methods=['POST','GET'])
 def search():
     conn = get_db_conn()
     cur = conn.cursor()
-    cur.execute('SELECT store, gpu, manufacturer, memory, price FROM GPUS')
-    glist = cur.fetchall()
-
-    return render_template("results.html", list=glist)
+    if request.method == 'POST':
+        term = request.form['searchbar']
+        print(term)
+        cur.execute('''
+                    SELECT store, gpu, manufacturer, memory, price FROM GPUS 
+                    WHERE gpu LIKE %s''',
+                    (term,))
+        conn.commit()
+        data = cur.fetchall()
+        print(data)
+        return render_template("results.html", list=data)
+    return render_template('home.html')
+    # cur.execute('SELECT store, gpu, manufacturer, memory, price FROM GPUS')
+    # glist = cur.fetchall()
     # return render_template("action.php")
     # add users to the database
 

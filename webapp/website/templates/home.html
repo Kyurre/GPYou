@@ -30,7 +30,7 @@
           <hr />
           <h6>Filters</h6>
           <hr />
-          <form id="searchbar" action="{{url_for('auth.search')}}">
+          <form id="searchbar" method='POST' action="{{url_for('auth.search')}}">
             <input
               type="search"
               id="searchquery"

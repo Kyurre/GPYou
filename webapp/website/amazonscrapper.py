@@ -47,7 +47,7 @@ def extract_record(item):
     return result
 
 
-def runSearch(search_term):
+def runSearch(search_term, path):
     """Run main program routine"""
     # URL: https://chromedriver.chromium.org/
     # Debug: https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/
@@ -66,7 +66,7 @@ def runSearch(search_term):
     url = get_url(search_term)
 
     # Go through max of 20 pages on amazon and parse information
-    for page in range(1, 21):
+    for page in range(1, 5):
         driver.get(url.format(page))
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         results = soup.find_all(
@@ -82,10 +82,13 @@ def runSearch(search_term):
     #print(records)
 
     # save data to csv file
-    with open('website/gpu.csv', 'w', newline='', encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerow(
-            ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
-        writer.writerows(records)
+    try:
+        with open(path, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(
+                ['Description', 'Price', 'Rating', 'ReviewCount', 'Url'])
+            writer.writerows(records)
+    except FileNotFoundError:
+        print("Couldn't find file in specified path")
         
-# runSearch('gpu')
+# runSearch('gpu', 'website/gpu.csv')

@@ -32,23 +32,24 @@ def create_admin():
                 VALUES (%s, %s, %s)
                 ON CONFLICT DO NOTHING
                 ''', ('dkulis', DEFAULT_ADMIN_PASS, True))
+    cur.close()
+    conn.commit()
 
 
-def insert_to_db():
-    """insert processed data into database"""
+def insert_to_db(path):
+    """insert processed data into database from csv provided in path"""
 
     conn = get_db_conn()
     cur = conn.cursor()
 
     # Insert statement
-    #  TODO: Fix issue with empty '' insert into SMALL INT 
     insert_smt = (
         "INSERT INTO GPUS (store, gpu, manufacturer, memory, price, link)" 
         "VALUES (%s, %s, %s, %s, %s, %s)"
     )
     
     # Data
-    amazon_gpu_list = createAmazonTuple()
+    amazon_gpu_list = createAmazonTuple(path)
     
     for i in range(0, len(amazon_gpu_list)):
         cur.execute(insert_smt, amazon_gpu_list[i])

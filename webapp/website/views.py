@@ -3,6 +3,7 @@ from . import get_db_conn
 
 views = Blueprint('views', __name__)
 
+
 # home page
 @views.route('/')
 def home():

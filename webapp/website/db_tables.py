@@ -51,7 +51,6 @@ def create_tables():
 
     # drop exsisting data from GPU, USER, FAVORITES
     drop_all_tables()
-
     conn = get_db_conn()
     cur = conn.cursor()
 
@@ -59,11 +58,12 @@ def create_tables():
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS USERS (
                     user_id     SERIAL UNIQUE PRIMARY KEY,
-                    username    VARCHAR(32) NOT NULL UNIQUE,
-                    password    VARCHAR(255) NOT NULL,
+                    username    TEXT NOT NULL UNIQUE,
+                    password    TEXT NOT NULL,
                     isAdmin     BOOL DEFAULT FALSE
                 )
                 ''')
+
     # create gpu table
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS GPUS (
@@ -79,10 +79,14 @@ def create_tables():
     # create favorites table
     cur.execute('''
                 CREATE TABLE IF NOT EXISTS FAVORITES (
-                    gpuid                   INTEGER,
-                    username                INTEGER,
-                    CONSTRAINT fk_gpu       FOREIGN KEY (gpuid) REFERENCES GPUS(gpu_id),
-                    CONSTRAINT fk_username  FOREIGN KEY (username) REFERENCES USERS(user_id)
+                    username        INTEGER UNIQUE,
+                    store           TEXT,
+                    gpu             TEXT,
+                    manufacturer    TEXT,
+                    memory          SMALLINT,
+                    price           FLOAT,
+                    link            TEXT,
+                    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES USERS(user_id)
                 )
                 ''')
 

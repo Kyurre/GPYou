@@ -2,6 +2,7 @@
     <html>
         <Head>
             <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/slideshow.css') }}">
 
         </Head>
         <body style="background-color: white;">
@@ -24,7 +25,12 @@
                             <hr>
                             <h6>Filters</h6>
                             <hr>
-                            <form action="{{url_for('auth.search')}}">
+                            <form id = "searchbar" action="{{url_for('auth.search')}}">
+                                <input type = "search" id = "searchquery" name="searchbar"
+                                    placeholder = "Search for a GPU!">
+                                    <button> Search </button>
+                            </form>
+                                <!--
                                 <h6>General</h6>
                                     <input type="checkbox" id="onsale">
                                     <label for="onsale">On Sale</label><br>
@@ -99,7 +105,7 @@
                             </form>
         
                             
-
+                            -->
 
                             
                     </div>
@@ -131,6 +137,8 @@
                         <h3 class="title" align="center">Trending Topics</h3>
                         <hr>
                         <div class="col">
+                            
+
                             <div class = "grid-body">
                                 <div class="row">
                                     <iframe width="560" height="315" src="https://www.youtube.com/embed/Wiw4fhFM7rQ" 
@@ -165,6 +173,7 @@
                                     </iframe>
                                 </div>
                             </div>
+                        
                         </div>
                     </div>
 

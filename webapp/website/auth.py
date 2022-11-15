@@ -161,11 +161,10 @@ def admin():
 
 @auth.route('/search')
 def search():
-    first = ("amazon", "GTX 960", "EVGA", 4, 990.99)
-    second = ("amazon", "GTX 960", "EVGA", 15, 999.99)
-    third = ("amazon", "GTX 960", "EVGA", 20, 999.99)
-
-    glist = [first, second, third]
+    conn = get_db_conn()
+    cur = conn.cursor()
+    cur.execute('SELECT store, gpu, manufacturer, memory, price FROM GPUS')
+    glist = cur.fetchall()
 
     return render_template("results.html", list=glist)
     # return render_template("action.php")

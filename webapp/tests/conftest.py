@@ -1,6 +1,10 @@
 import pytest
 from website import create_app
 
+# Testing using flask tutorial
+# https://flask.palletsprojects.com/en/2.0.x/tutorial/tests/
+
+
 @pytest.fixture()
 def app():
     app = create_app()
@@ -24,6 +28,7 @@ def client(app):
 def runner(app):
     return app.test_cli_runner()
 
+
 class AuthActions(object):
     def __init__(self, client):
         self._client = client
@@ -35,6 +40,7 @@ class AuthActions(object):
 
     def logout(self):
         return self._client.get('/logout')
+
 
 @pytest.fixture()
 def auth(client):

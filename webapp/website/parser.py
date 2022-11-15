@@ -105,7 +105,7 @@ def getURL(path):
 
 
 def createAmazonTuple(path):
-    # AWSC.runSearch("GPU", path)
+    AWSC.runSearch("GPU", path)
     AmazonParser(path)
     getPrice(path)
     getURL(path)
@@ -123,6 +123,3 @@ def createAmazonTuple(path):
 # Use this to run the parser.py locally to test that it prints a tuple
 # for local use <name>.csv and for flask run, make sure it is website/<name>.csv
 # createAmazonTuple('test.csv')
-
-
-
